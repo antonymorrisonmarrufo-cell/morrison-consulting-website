@@ -6,7 +6,12 @@
 <title>Morrison Consulting | Transformation &amp; Programme Director</title>
 <meta name="description" content="Tony Morrison — Portfolio, Transformation and Programme Director with over 18 years' experience leading major change in local government, with a further 13 years in the energy sector.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:wght@400;600;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
+<link rel="dns-prefetch" href="https://www.youtube.com">
+<link rel="dns-prefetch" href="https://i.ytimg.com">
 <style>
 :root {
   --black: #1A1A1A;
@@ -711,6 +716,36 @@ section {
   height: 100%;
 }
 
+/* ===== VIDEO FACADE (click-to-play) ===== */
+.video-facade {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.video-facade::after {
+  content: '';
+  width: 68px;
+  height: 48px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'%3E%3Cpath d='M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z' fill='%23212121' fill-opacity='.8'/%3E%3Cpath d='M45 24L27 14v20' fill='%23fff'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+  filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+  transition: transform 0.2s ease;
+}
+
+.video-facade:hover::after {
+  transform: scale(1.1);
+}
+
 /* ===== TESTIMONIAL VIDEOS ===== */
 .testimonial-grid {
   display: grid;
@@ -906,7 +941,7 @@ footer a:hover { color: var(--gold-light); }
         <a href="#" class="cta-btn cta-outline" onclick="showPage('cases');return false;">Case Studies</a>
       </div>
       <div class="hero-image">
-        <img src="headshot.jpg" alt="Tony Morrison">
+        <img src="headshot.jpg" alt="Tony Morrison" width="340" height="340" fetchpriority="high">
       </div>
     </div>
   </div>
@@ -1071,7 +1106,7 @@ footer a:hover { color: var(--gold-light); }
       </div>
 
       <div class="about-image">
-        <img src="headshot.jpg" alt="Tony Morrison">
+        <img src="headshot.jpg" alt="Tony Morrison" width="400" height="400" loading="lazy">
 
         <div style="margin-top: 40px;">
           <div class="section-label">Depth of Experience</div>
@@ -1251,7 +1286,7 @@ footer a:hover { color: var(--gold-light); }
       <div class="case-card-body">
         <p>A reflection on the technology transformation programme I led at the London Borough of Redbridge, delivering 2,300+ devices, directing the technical fit-out of a 12-floor office, and repackaging 390 applications for the Windows 10 migration.</p>
         <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/F1ld6xAflrc" title="Tony Morrison - Redbridge SMART Programme" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="video-facade" data-video-id="F1ld6xAflrc" role="button" aria-label="Play: Tony Morrison - Redbridge SMART Programme" tabindex="0" style="background-image:url(https://i.ytimg.com/vi/F1ld6xAflrc/hqdefault.jpg)"></div>
         </div>
       </div>
     </div>
@@ -1264,7 +1299,7 @@ footer a:hover { color: var(--gold-light); }
       <div class="case-card-body">
         <p>A walkthrough of the office designs I led at the London Borough of Islington as part of the FutureWork programme — transforming the estate into modern, flexible workspaces that support new ways of working.</p>
         <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/nKWpxjqCX5s" title="Tony Morrison - Islington Workplace Design" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="video-facade" data-video-id="nKWpxjqCX5s" role="button" aria-label="Play: Tony Morrison - Islington Workplace Design" tabindex="0" style="background-image:url(https://i.ytimg.com/vi/nKWpxjqCX5s/hqdefault.jpg)"></div>
         </div>
       </div>
     </div>
@@ -1278,22 +1313,22 @@ footer a:hover { color: var(--gold-light); }
     <div class="testimonial-grid">
       <div class="testimonial-video fade-in">
         <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/vFxC08vaOPs" title="Working with Tony Morrison - Testimonial 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="video-facade" data-video-id="vFxC08vaOPs" role="button" aria-label="Play: Working with Tony Morrison - Testimonial 1" tabindex="0" style="background-image:url(https://i.ytimg.com/vi/vFxC08vaOPs/hqdefault.jpg)"></div>
         </div>
       </div>
       <div class="testimonial-video fade-in">
         <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/EvxpAsJopE8" title="Working with Tony Morrison - Testimonial 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="video-facade" data-video-id="EvxpAsJopE8" role="button" aria-label="Play: Working with Tony Morrison - Testimonial 2" tabindex="0" style="background-image:url(https://i.ytimg.com/vi/EvxpAsJopE8/hqdefault.jpg)"></div>
         </div>
       </div>
       <div class="testimonial-video fade-in">
         <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/gcIFUalhqr8" title="Working with Tony Morrison - Testimonial 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="video-facade" data-video-id="gcIFUalhqr8" role="button" aria-label="Play: Working with Tony Morrison - Testimonial 3" tabindex="0" style="background-image:url(https://i.ytimg.com/vi/gcIFUalhqr8/hqdefault.jpg)"></div>
         </div>
       </div>
       <div class="testimonial-video fade-in">
         <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/qN-6HkNN55w" title="Working with Tony Morrison - Testimonial 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="video-facade" data-video-id="qN-6HkNN55w" role="button" aria-label="Play: Working with Tony Morrison - Testimonial 4" tabindex="0" style="background-image:url(https://i.ytimg.com/vi/qN-6HkNN55w/hqdefault.jpg)"></div>
         </div>
       </div>
     </div>
@@ -1356,6 +1391,21 @@ footer a:hover { color: var(--gold-light); }
 
 <script>
 function showPage(page) {
+  // Stop playing videos when leaving a page
+  document.querySelectorAll('.page.active .video-embed iframe').forEach(function(iframe) {
+    var match = iframe.src.match(/embed\/([^?]+)/);
+    if (match) {
+      var facade = document.createElement('div');
+      facade.className = 'video-facade';
+      facade.dataset.videoId = match[1];
+      facade.setAttribute('role', 'button');
+      facade.setAttribute('aria-label', 'Play: ' + iframe.title);
+      facade.setAttribute('tabindex', '0');
+      facade.style.backgroundImage = 'url(https://i.ytimg.com/vi/' + match[1] + '/hqdefault.jpg)';
+      iframe.parentNode.replaceChild(facade, iframe);
+    }
+  });
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
@@ -1381,6 +1431,27 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 // Trigger initial page fade-ins
 window.addEventListener('load', () => {
   document.querySelectorAll('.page.active .fade-in').forEach(el => el.classList.add('visible'));
+});
+
+// Click-to-play YouTube facades
+document.addEventListener('click', function(e) {
+  var facade = e.target.closest('.video-facade');
+  if (!facade) return;
+  var videoId = facade.dataset.videoId;
+  var iframe = document.createElement('iframe');
+  iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+  iframe.title = facade.getAttribute('aria-label').replace('Play: ', '');
+  iframe.frameBorder = '0';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.allowFullscreen = true;
+  facade.parentNode.replaceChild(iframe, facade);
+});
+
+document.addEventListener('keydown', function(e) {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('video-facade')) {
+    e.preventDefault();
+    e.target.click();
+  }
 });
 
 // Simple form handler
