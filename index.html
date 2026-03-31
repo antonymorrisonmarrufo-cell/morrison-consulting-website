@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morrison Consulting | Transformation &amp; Programme Director</title>
+<meta name="description" content="Tony Morrison — Portfolio, Transformation and Programme Director with over 18 years' experience leading major change in local government, with a further 13 years in the energy sector.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #1A1A1A;
+  --gold: #D4A017;
+  --gold-light: #E8C547;
+  --white: #FFFFFF;
+  --off-white: #F5F5F0;
+  --grey: #888888;
+  --grey-light: #CCCCCC;
+  --grey-dark: #333333;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--white);
+  background: var(--black);
+  line-height: 1.7;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(26,26,26,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(212,160,23,0.15);
+  transition: all 0.3s ease;
+}
+
+nav .nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav .logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+nav .logo .logo-headshot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+}
+
+nav .logo span { color: var(--gold); }
+
+.logo-img {
+  width: 36px;
+  height: 36px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+/* ===== CASE STUDY IMAGES ===== */
+.case-hero-img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  margin-bottom: 30px;
+  border-bottom: 3px solid var(--gold);
+}
+
+nav .nav-links { display: flex; gap: 32px; align-items: center; }
+
+nav .nav-links a {
+  color: var(--grey-light);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+nav .nav-links a:hover, nav .nav-links a.active { color: var(--gold); }
+
+nav .nav-links a.cta-nav {
+  background: var(--gold);
+  color: var(--black);
+  padding: 10px 24px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+nav .nav-links a.cta-nav:hover { background: var(--gold-light); }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+.hamburger span {
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  transition: 0.3s;
+}
+
+/* ===== SECTIONS ===== */
+.page { display: none; }
+.page.active { display: block; }
+
+section {
+  padding: 100px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-dark { background: var(--black); }
+.section-darker { background: #111111; }
+.section-light { background: var(--off-white); color: var(--black); }
+
+.full-width {
+  max-width: 100%;
+  padding: 100px 40px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(212,160,23,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text h1 {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+}
+
+.hero-text h1 .gold { color: var(--gold); }
+
+.hero-text .subtitle {
+  font-size: 18px;
+  color: var(--grey-light);
+  line-height: 1.8;
+  margin-bottom: 40px;
+  max-width: 520px;
+}
+
+.hero-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image img {
+  width: 340px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--gold);
+  box-shadow: 0 0 60px rgba(212,160,23,0.2);
+}
+
+.cta-btn {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--black);
+  padding: 16px 40px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  border: 2px solid var(--gold);
+}
+
+.cta-btn:hover {
+  background: transparent;
+  color: var(--gold);
+}
+
+.cta-outline {
+  background: transparent;
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  margin-left: 16px;
+}
+
+.cta-outline:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+/* ===== STATS ===== */
+.stats-bar {
+  background: #111111;
+  border-top: 1px solid rgba(212,160,23,0.2);
+  border-bottom: 1px solid rgba(212,160,23,0.2);
+}
+
+.stats-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+
+.stat-item {
+  background: rgba(245, 245, 240, 0.95);
+  padding: 28px 20px;
+  border-radius: 4px;
+  border-top: 5px solid var(--gold);
+  transition: all 0.3s;
+}
+
+.stat-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(212, 160, 23, 0.15);
+}
+
+.stat-item .stat-number {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.stat-item .stat-label {
+  font-size: 13px;
+  color: #555555;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== AREAS OF EXPERTISE ===== */
+.expertise-layout {
+  margin-top: 60px;
+}
+
+.expertise-row {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 2px;
+  transition: all 0.3s;
+}
+
+.expertise-row:hover {
+  transform: scale(1.01);
+}
+
+.expertise-row-number {
+  width: 80px;
+  min-height: 120px;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.expertise-row-number span {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.expertise-row-icon {
+  width: 80px;
+  background: rgba(212, 160, 23, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--gold);
+}
+
+.expertise-row-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.expertise-row-content {
+  flex: 1;
+  background: rgba(245, 245, 240, 0.95);
+  padding: 28px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.expertise-row-content h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+
+.expertise-row-content p {
+  font-size: 15px;
+  color: #555555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .expertise-row { flex-wrap: wrap; }
+  .expertise-row-number { width: 100%; min-height: 50px; }
+  .expertise-row-icon { width: 100%; padding: 16px; }
+  .expertise-row-content { padding: 20px; }
+}
+
+/* ===== SKILLS ===== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 50px;
+}
+
+.skill-item {
+  padding: 32px;
+  background: rgba(245, 245, 240, 0.95);
+  border-bottom: 5px solid var(--gold);
+  transition: all 0.3s;
+  border-radius: 4px;
+}
+
+.skill-item:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-4px);
+}
+
+.skill-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 10px;
+}
+
+.skill-desc {
+  font-size: 15px;
+  color: #555555;
+  line-height: 1.7;
+}
+
+/* ===== CLIENTS GRID ===== */
+.clients-bar {
+  text-align: center;
+  padding: 80px 40px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.clients-bar h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--grey);
+  margin-bottom: 40px;
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.client-tile {
+  background: rgba(245, 245, 240, 0.95);
+  color: var(--black);
+  padding: 18px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 4px;
+  transition: all 0.3s;
+  letter-spacing: 0.3px;
+  border-left: 5px solid var(--gold);
+}
+
+.client-tile:hover {
+  background: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 160, 23, 0.15);
+}
+
+.client-tile.accent {
+  background: rgba(212, 160, 23, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(212, 160, 23, 0.25);
+}
+
+/* ===== HEADINGS ===== */
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+.section-heading .gold { color: var(--gold); }
+
+.section-intro {
+  font-size: 18px;
+  color: var(--grey-light);
+  max-width: 640px;
+  line-height: 1.8;
+  margin-bottom: 60px;
+}
+
+.section-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+/* ===== ABOUT PAGE ===== */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-text p {
+  font-size: 17px;
+  color: var(--grey-light);
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.about-text p strong { color: var(--white); }
+
+.about-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 4px;
+  border: 3px solid var(--gold);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.about-highlight {
+  background: rgba(245, 245, 240, 0.95);
+  border-left: 5px solid var(--gold);
+  padding: 28px 36px;
+  margin: 30px 0;
+  border-radius: 4px;
+}
+
+.about-highlight p {
+  color: var(--black) !important;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* ===== EXPERTISE DETAIL PAGE ===== */
+.expertise-detail {
+  display: flex;
+  margin-bottom: 40px;
+  transition: all 0.3s;
+}
+
+.expertise-detail:hover {
+  transform: translateX(4px);
+}
+
+.expertise-detail-bar {
+  width: 6px;
+  background: var(--gold);
+  flex-shrink: 0;
+  border-radius: 3px;
+}
+
+.expertise-detail-content {
+  flex: 1;
+  padding-left: 32px;
+}
+
+.expertise-detail-heading {
+  margin-bottom: 24px;
+}
+
+.expertise-detail-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-right: 16px;
+}
+
+.expertise-detail-content h3 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0;
+  display: inline;
+}
+
+.expertise-detail-text {
+  background: rgba(245, 245, 240, 0.95);
+  padding: 32px 36px;
+  border-radius: 4px;
+}
+
+.expertise-detail-text p {
+  font-size: 16px;
+  color: #444444;
+  line-height: 1.8;
+  margin-bottom: 0;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--gold);
+  margin-bottom: 20px;
+}
+
+.expertise-detail-text p:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .expertise-detail-content { padding-left: 20px; }
+  .expertise-detail-text { padding: 20px; }
+}
+
+/* ===== CASE STUDY CARDS ===== */
+.case-card {
+  background: rgba(255,255,255,0.02);
+  border: 3px solid var(--gold);
+  margin-bottom: 40px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.case-card:hover {
+  border-color: var(--gold-light);
+}
+
+.case-card-header {
+  padding: 40px 40px 20px;
+  border-bottom: 2px solid rgba(212,160,23,0.3);
+}
+
+.case-card-header .case-card-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.case-card-header h3 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.case-card-body {
+  padding: 30px 40px;
+}
+
+.case-card-body p {
+  font-size: 17px;
+  color: var(--grey-light);
+  line-height: 1.8;
+  margin-bottom: 12px;
+  max-width: 800px;
+}
+
+.case-card-section {
+  margin-bottom: 24px;
+}
+
+.case-card-section h4 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gold);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.case-card-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 24px 40px 32px;
+}
+
+.case-result {
+  flex: 1;
+  min-width: 120px;
+  padding: 16px 20px;
+  text-align: center;
+  background: rgba(245, 245, 240, 0.95);
+  border-radius: 4px;
+  border-top: 5px solid var(--gold);
+}
+
+.case-result-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+
+.case-result-label {
+  display: block;
+  font-size: 11px;
+  color: #555555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .case-card-results { flex-direction: row; flex-wrap: wrap; padding: 16px 24px 24px; }
+  .case-result { min-width: calc(50% - 8px); }
+  .case-card-header, .case-card-body { padding: 24px; }
+}
+
+/* ===== VIDEO EMBED ===== */
+.video-embed {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  padding-bottom: 45%;
+  margin-top: 24px;
+  background: #000;
+}
+
+.video-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== TESTIMONIAL VIDEOS ===== */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.testimonial-video {
+  border: 3px solid var(--gold);
+  overflow: hidden;
+  background: var(--black);
+}
+
+.testimonial-video .video-embed {
+  padding-bottom: 56.25%;
+  max-width: 100%;
+}
+
+@media (max-width: 700px) {
+  .testimonial-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== CONTACT ===== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-info p {
+  font-size: 17px;
+  color: var(--grey-light);
+  margin-bottom: 30px;
+  line-height: 1.8;
+}
+
+.contact-detail {
+  margin-bottom: 24px;
+}
+
+.contact-detail .contact-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.contact-detail a, .contact-detail span {
+  font-size: 18px;
+  color: var(--white);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.contact-detail a:hover { color: var(--gold); }
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  margin-bottom: 16px;
+  transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.contact-form textarea { min-height: 140px; resize: vertical; }
+
+.contact-form button {
+  background: var(--gold);
+  color: var(--black);
+  border: none;
+  padding: 16px 40px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-form button:hover { background: var(--gold-light); }
+
+/* ===== FOOTER ===== */
+footer {
+  border-top: 1px solid rgba(212,160,23,0.15);
+  padding: 40px;
+  text-align: center;
+}
+
+footer p {
+  font-size: 14px;
+  color: var(--grey);
+}
+
+footer a { color: var(--gold); text-decoration: none; }
+footer a:hover { color: var(--gold-light); }
+
+/* ===== ANIMATIONS ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
+  .hero-content { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+  .hero-text .subtitle { max-width: 100%; }
+  .hero-image { order: -1; }
+  .hero-image img { width: 240px; height: 240px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+  nav .nav-links { display: none; }
+  nav .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(26,26,26,0.98);
+    padding: 20px 40px;
+    gap: 16px;
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+  }
+  .hamburger { display: flex; }
+  section { padding: 60px 24px; }
+  .full-width { padding: 60px 24px; }
+  .stats-grid { padding: 40px 24px; }
+  .hero { padding-top: 100px; }
+}
+
+@media (max-width: 600px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .hero-text h1 { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo" onclick="showPage('home');return false;">Morrison<span>.</span>Consulting</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#" onclick="showPage('home');return false;">Home</a>
+      <a href="#" onclick="showPage('about');return false;">About</a>
+      <a href="#" onclick="showPage('services');return false;">Expertise</a>
+      <a href="#" onclick="showPage('cases');return false;">Case Studies</a>
+      <a href="#" onclick="showPage('contact');return false;" class="cta-nav">Get in Touch</a>
+    </div>
+    <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HOME ==================== -->
+<div class="page active" id="page-home">
+
+  <div class="hero full-width">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Modernising Local<br>Government.<br><span class="gold">Delivering Real Results.</span></h1>
+        <p class="subtitle">Portfolio, Transformation and Programme Director with over 18 years' experience leading major change in local government, with a further 13 years in the energy sector. Based in Dorset and London. Available for long-term contracts, defined short-term work packages, and speaker or facilitator events. Working across the UK on a hybrid basis.</p>
+        <a href="#" class="cta-btn" onclick="showPage('contact');return false;">Get in Touch</a>
+        <a href="#" class="cta-btn cta-outline" onclick="showPage('cases');return false;">Case Studies</a>
+      </div>
+      <div class="hero-image">
+        <img src="headshot.jpg" alt="Tony Morrison">
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <div class="stat-number">£10.8m</div>
+        <div class="stat-label">Cumulative benefits from a single programme</div>
+      </div>
+      <div class="stat-item fade-in">
+        <div class="stat-number">102,600</div>
+        <div class="stat-label">Unnecessary calls eliminated per year</div>
+      </div>
+      <div class="stat-item fade-in">
+        <div class="stat-number">Multiple</div>
+        <div class="stat-label">ERP implementations across reorganisations</div>
+      </div>
+      <div class="stat-item fade-in">
+        <div class="stat-number">18</div>
+        <div class="stat-label">Years in local government since 2008</div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-label">Core Skills</div>
+    <h2 class="section-heading">What I <span class="gold">bring.</span></h2>
+    <p class="section-intro">Like having a Delivery Manager, Product Owner, Coach, User Researcher, UX &amp; Service Designer, Business Analyst, and QA — all in one. And I can develop too.</p>
+
+    <div class="skills-grid">
+      <div class="skill-item fade-in">
+        <div class="skill-name">Problem Solving</div>
+        <div class="skill-desc">Finding what's really broken and fixing it. Recovering stalled programmes of change, unblocking barriers, and getting things moving when others get stuck.</div>
+      </div>
+      <div class="skill-item fade-in">
+        <div class="skill-name">Programme Delivery</div>
+        <div class="skill-desc">Directing multi-million pound complex portfolios and programmes that actually deliver. Structure, governance, momentum, and accountability across multiple workstreams.</div>
+      </div>
+      <div class="skill-item fade-in">
+        <div class="skill-name">Change Management</div>
+        <div class="skill-desc">Bringing people with you at every level — from front-line staff to cabinet members. Transformation only works when people understand and own it.</div>
+      </div>
+      <div class="skill-item fade-in">
+        <div class="skill-name">Business Analysis</div>
+        <div class="skill-desc">Forensic, evidence-led analysis that finds the real problems. AI-driven data analysis, demand modelling, and root cause identification.</div>
+      </div>
+      <div class="skill-item fade-in">
+        <div class="skill-name">Designing Solutions That Work</div>
+        <div class="skill-desc">Pragmatic, deliverable solutions — not strategy decks that gather dust. Operating models, service blueprints, and digital front doors built for the real world.</div>
+      </div>
+      <div class="skill-item fade-in">
+        <div class="skill-name">Service Improvement</div>
+        <div class="skill-desc">Expert process reengineering and service redesign. Taking broken processes apart and rebuilding them so they work for the organisation and the people it serves.</div>
+      </div>
+      <div class="skill-item fade-in">
+        <div class="skill-name">Culture &amp; People</div>
+        <div class="skill-desc">Workforce transition, stakeholder engagement, staff consultation, and building trusted relationships at all levels. The human side of transformation.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Areas of Expertise</div>
+    <h2 class="section-heading">Five areas. <span class="gold">One focus: delivery.</span></h2>
+    <p class="section-intro">Everything I do is grounded in hands-on experience across public sector transformation. These are my core areas of expertise.</p>
+
+    <div class="expertise-layout">
+      <div class="expertise-row fade-in">
+        <div class="expertise-row-number"><span>01</span></div>
+        <div class="expertise-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="expertise-row-content">
+          <h3>Resident Experience</h3>
+          <p>Contact centre transformation, customer access strategy, self-service redesign, and AI-driven demand analysis. Reducing call volumes, improving satisfaction, and cutting cost to serve.</p>
+        </div>
+      </div>
+
+      <div class="expertise-row fade-in">
+        <div class="expertise-row-number"><span>02</span></div>
+        <div class="expertise-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="expertise-row-content">
+          <h3>Digital &amp; Technology</h3>
+          <p>AI, automation, Microsoft 365, agentic AI, RPA, and cloud platforms. Deploying modern technology and managing the change that makes it stick.</p>
+        </div>
+      </div>
+
+      <div class="expertise-row fade-in">
+        <div class="expertise-row-number"><span>03</span></div>
+        <div class="expertise-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="expertise-row-content">
+          <h3>Workplace Transformation</h3>
+          <p>Smarter Working programmes, estate rationalisation, flexible working at scale, and office redesign. From 33 offices into 5 hubs at one council.</p>
+        </div>
+      </div>
+
+      <div class="expertise-row fade-in">
+        <div class="expertise-row-number"><span>04</span></div>
+        <div class="expertise-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div class="expertise-row-content">
+          <h3>Service Redesign</h3>
+          <p>Operating model design, process reengineering, adults social care front door, business support transformation, and end-to-end pathway redesign.</p>
+        </div>
+      </div>
+
+      <div class="expertise-row fade-in">
+        <div class="expertise-row-number"><span>05</span></div>
+        <div class="expertise-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <div class="expertise-row-content">
+          <h3>ERP &amp; System Implementation</h3>
+          <p>Oracle and SAP implementation, stabilisation and recovery. Cross-council process harmonisation, data migration, and shared service design during unitary reorganisations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="clients-bar">
+    <h4>Where I've Worked</h4>
+    <div class="clients-grid">
+      <div class="client-tile">Waltham Forest</div>
+      <div class="client-tile">Islington</div>
+      <div class="client-tile">Lancashire County Council</div>
+      <div class="client-tile">Newham</div>
+      <div class="client-tile">Redbridge</div>
+      <div class="client-tile">Hounslow</div>
+      <div class="client-tile">Barnet</div>
+      <div class="client-tile">Croydon</div>
+      <div class="client-tile">Wiltshire Council</div>
+      <div class="client-tile">Cornwall Council</div>
+      <div class="client-tile">Borough of Poole (now BCP Council)</div>
+      <div class="client-tile">Bournemouth Borough Council (now BCP Council)</div>
+      <div class="client-tile">Somerset</div>
+      <div class="client-tile">FutureGov (now TPXimpact)</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== ABOUT ==================== -->
+<div class="page" id="page-about">
+  <section style="padding-top: 140px;">
+    <div class="section-label">About</div>
+    <h2 class="section-heading">Tony <span class="gold">Morrison</span></h2>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm Tony Morrison, a Portfolio, Transformation and Programme Director specialising in local government.</p>
+        <p>I've spent over 30 years leading major change — 18 years in local government and 13 years in the energy sector — the kind of complex, cross-cutting work that makes a tangible difference to how public sector organisations serve their communities and how staff do their jobs.</p>
+
+        <div class="about-highlight">
+          <p>"I'm not a strategy consultant who hands over a deck and disappears. I sit in the room, run the programme, unblock the problems, and stay until the work is done."</p>
+        </div>
+
+        <p><strong>I'm pragmatic.</strong> I focus on what will actually work, not what looks good on paper. I bring expert-level process reengineering and service redesign skills — I can take a complex, broken process apart, understand why it's failing, and rebuild it in a way that works for both the organisation and the people it serves.</p>
+
+        <p><strong>Communication and change management are at the heart of everything I do.</strong> Transformation fails when people don't understand why it's happening or feel excluded from the journey. I invest heavily in bringing people with me — from front-line staff to cabinet members. I'm equally comfortable presenting to a Scrutiny Committee, running a workshop with contact centre agents, or having a difficult conversation with a director.</p>
+
+        <p><strong>My approach is evidence-led.</strong> I use data to find the real problems — not the ones people assume — and I build delivery plans that front-line teams can actually execute.</p>
+
+        <p>I bring modern tools and methods, including AI, automation, and data analytics, but only where they genuinely solve a problem. I've personally built AI-driven call analysis models that uncovered insights no traditional reporting could find — and used them to eliminate over 100,000 unnecessary calls a year.</p>
+
+        <p><strong>I'm effective with stakeholders at all levels.</strong> I've worked directly with Chief Executives, Cabinet Members, and elected Members to secure mandate and maintain confidence. I've managed large cross-directorate teams through difficult restructures. And I've built trusted relationships with front-line managers who are often the key to making change stick.</p>
+      </div>
+
+      <div class="about-image">
+        <img src="headshot.jpg" alt="Tony Morrison">
+
+        <div style="margin-top: 40px;">
+          <div class="section-label">Depth of Experience</div>
+          <p style="color: var(--grey-light); font-size: 16px; line-height: 1.8; margin-top: 12px;">Seven London boroughs, three county councils, multiple unitary reorganisations. Senior Management Consultant at FutureGov (now TPXimpact). 13 years in the energy sector at Centrica and nPower before moving into local government in 2008.</p>
+          <p style="color: var(--grey-light); font-size: 16px; line-height: 1.8; margin-top: 12px;">Programmes spanning resident experience, contact centre transformation, adults social care front door, Oracle ERP stabilisation, Microsoft 365 migration, workplace transformation, and large-scale workforce restructuring.</p>
+        </div>
+
+        <div style="margin-top: 40px;">
+          <div class="section-label">How I Work</div>
+          <p style="color: var(--grey-light); font-size: 16px; line-height: 1.8; margin-top: 12px;">Operating through Marrufo Consultancy Ltd. Based in Dorset and London, working with public sector organisations across the UK. Available for long-term contracts, defined short-term work packages, and speaker or facilitator events. Working across the UK on a hybrid basis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== WHAT I DO ==================== -->
+<div class="page" id="page-services">
+  <section style="padding-top: 140px;">
+    <div class="section-label">Areas of Expertise</div>
+    <h2 class="section-heading">Expertise that <span class="gold">delivers.</span></h2>
+    <p class="section-intro">Each area is grounded in hands-on delivery experience, not theory. I've done the work, seen what fails, and know what actually moves the needle.</p>
+
+    <div class="expertise-detail fade-in">
+      <div class="expertise-detail-bar"></div>
+      <div class="expertise-detail-content">
+        <div class="expertise-detail-heading"><span class="expertise-detail-num">01</span><h3>Resident Experience</h3></div>
+        <div class="expertise-detail-text">
+          <p>I transform how public sector organisations interact with residents — from contact centres and customer access, through to self-service, web content, and complaint handling. My approach starts with forensic, data-driven analysis of what's actually driving demand, then builds targeted interventions that reduce volumes without reducing service quality.</p>
+          <p>At one London borough, I built an AI-driven call analysis model from scratch, analysing 50,000 call transcripts to surface call drivers, root causes, and failure demand. This led to a 38% reduction in call volumes within five months, 102,600 unnecessary calls eliminated annually, answer rates improving from 52% to 82%, and a 39% reduction in contact centre FTE.</p>
+          <p>I've implemented cloud-based omni-channel contact centres, redesigned IVR and channels, overhauled top-service web content and self-service forms, and implemented corporate complaints management systems. I also designed the detailed digital front door blueprint for adults' social care — a complete end-to-end design covering self-service, target operating model, and new website content.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="expertise-detail fade-in">
+      <div class="expertise-detail-bar"></div>
+      <div class="expertise-detail-content">
+        <div class="expertise-detail-heading"><span class="expertise-detail-num">02</span><h3>Digital &amp; Technology</h3></div>
+        <div class="expertise-detail-text">
+          <p>I lead the deployment of modern technology across public sector operations — from AI-powered call triage and agentic AI, to robotic process automation, Microsoft 365 migration, and multi-factor authentication rollout.</p>
+          <p>I don't just implement technology. I manage the change that makes it stick: staff engagement, training, resistance management, and leadership buy-in. I've personally designed AI analysis models and automated back-office processes. Technology only delivers value when people actually use it.</p>
+          <p>At Lancashire County Council, I directed the council-wide migration to Microsoft 365 including Teams, SharePoint Online, and Exchange. At Waltham Forest, I piloted AI-driven call handling, demand analysis, and quality assurance tools. I've defined solutions, conducted market analysis, and piloted AI tools for web, agentic AI call handling, and back-office processing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="expertise-detail fade-in">
+      <div class="expertise-detail-bar"></div>
+      <div class="expertise-detail-content">
+        <div class="expertise-detail-heading"><span class="expertise-detail-num">03</span><h3>Workplace Transformation</h3></div>
+        <div class="expertise-detail-text">
+          <p>I've directed some of the largest workplace transformation programmes in local government. This is about far more than desks and devices — it's about fundamentally rethinking how and where staff work, rationalising estates, deploying technology, and managing the people-side of change at scale.</p>
+          <p>At Somerset County Council, I directed a complex £12m programme that rationalised 33 back offices into 5 county-wide hubs, implemented flexible telephony across the organisation, redesigned and refurbished existing offices to maximise space, and enabled flexible working styles through ICT interventions and hot-desking.</p>
+          <p>At Newham, I delivered a Smarter Working programme for over 1,000 staff before COVID-19, redesigning the working environment with a 2:1 staff-to-desk ratio. When lockdown hit, I rapidly deployed 1,870 laptops within three months and rolled out conferencing tools to maintain uninterrupted service delivery.</p>
+          <p>At Islington, I led the FutureWork programme, establishing pilot offices, developing the business case for property disposal, and delivering an estate rationalisation with £10.8m in cumulative benefits. At Hounslow, I directed the WorkSmart programme for 2,000 users. At Redbridge, I delivered 2,300+ devices and directed the technical fit-out of a 12-floor office.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="expertise-detail fade-in">
+      <div class="expertise-detail-bar"></div>
+      <div class="expertise-detail-content">
+        <div class="expertise-detail-heading"><span class="expertise-detail-num">04</span><h3>Service Redesign</h3></div>
+        <div class="expertise-detail-text">
+          <p>Public sector organisations are under unprecedented pressure to do more with less. I bring expert-level process reengineering and service redesign skills — I can take a complex, broken process apart, understand why it's failing, and rebuild it in a way that works for both the organisation and the people it serves.</p>
+          <p>At Waltham Forest, I led a diverse portfolio of programmes focused on transforming resident experience and business support services, while directing multiple large-scale digital transformation programmes. The portfolio delivered over £4m in annual benefits while reducing cost to serve.</p>
+          <p>My business support transformation eliminated a £1.5m annual overspend through process reengineering and service redesign across over 50 functions including Adults and Children's Social Care, Accounts Payable, HR, and Payroll. I designed the target operating model, managed workforce restructuring, staff consultation, and redeployment through the transition.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="expertise-detail fade-in">
+      <div class="expertise-detail-bar"></div>
+      <div class="expertise-detail-content">
+        <div class="expertise-detail-heading"><span class="expertise-detail-num">05</span><h3>ERP &amp; System Implementation</h3></div>
+        <div class="expertise-detail-text">
+          <p>I have deep experience of ERP implementation, stabilisation, and recovery across both SAP and Oracle platforms — often in the most complex environments imaginable: local government reorganisations where multiple organisations are merging into one.</p>
+          <p>At Wiltshire Council, I led the ERP-enabled business change workstream during unitary formation — brokering agreement between multiple merging councils on a single SAP solution, overseeing design and configuration across HR, Payroll, Finance, and Accounts, and managing complex multi-organisation data migration.</p>
+          <p>At Borough of Poole and Bournemouth Borough Council (now BCP Council), I led cross-authority system migration to a common HR, Payroll, and Recruitment platform, harmonising policies and processes as the foundation for a future shared service model.</p>
+          <p>At Cornwall Council, I led the post-unitary transition from multiple legacy systems to a single Oracle R12 platform. At Waltham Forest, I led Oracle HR and Payroll diagnostics and turnaround, halving payroll error rates while maintaining live service continuity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== CASE STUDIES ==================== -->
+<div class="page" id="page-cases">
+  <section style="padding-top: 140px;">
+    <div class="section-label">Case Studies</div>
+    <h2 class="section-heading">Proof in the <span class="gold">numbers.</span></h2>
+    <p class="section-intro">Real results from real programmes. The situation, what I did, and the measurable outcomes delivered.</p>
+
+    <div class="case-card fade-in">
+      <div class="case-card-header">
+        <div class="case-card-label">London Borough | 2023–2026</div>
+        <h3>AI-Driven Contact Centre Transformation</h3>
+      </div>
+      <div class="case-card-body">
+        <div class="case-card-section">
+          <h4>The Situation</h4>
+          <p>A London borough's contact centre was handling over 270,000 calls per year. Answer rates were low, wait times were high, and costs were escalating. Traditional reporting showed volumes but could not explain why residents were calling or where the biggest opportunities lay.</p>
+        </div>
+        <div class="case-card-section">
+          <h4>What I Did</h4>
+          <p>I built an AI-driven call analysis model from scratch — extracting and anonymising 50,000 call transcripts via the 8x8 API and designing a structured analytical framework to surface call drivers, root causes, failure demand, and specific prevention actions.</p>
+          <p>Using these insights, I led targeted improvements: IVR redesign, web content overhaul for the top ten services, self-service form redesign, cloud-based omni-channel contact centre implementation, and staff cross-skilling using AI tools.</p>
+        </div>
+      </div>
+      <div class="case-card-results">
+        <div class="case-result"><span class="case-result-num">38%</span><span class="case-result-label">Call volume reduction in 5 months</span></div>
+        <div class="case-result"><span class="case-result-num">102,600</span><span class="case-result-label">Calls eliminated per year</span></div>
+        <div class="case-result"><span class="case-result-num">52%→82%</span><span class="case-result-label">Answer rate improvement</span></div>
+        <div class="case-result"><span class="case-result-num">39%</span><span class="case-result-label">Contact centre FTE reduction</span></div>
+        <div class="case-result"><span class="case-result-num">£938k</span><span class="case-result-label">Benefits delivered</span></div>
+      </div>
+    </div>
+
+    <div class="case-card fade-in">
+      <div class="case-card-header">
+        <div class="case-card-label">London Borough | 2023–2026</div>
+        <h3>Modernisation Portfolio &amp; MTFS Delivery</h3>
+      </div>
+      <div class="case-card-body">
+        <div class="case-card-section">
+          <h4>The Situation</h4>
+          <p>A London borough needed to modernise multiple services simultaneously while delivering significant savings for its Medium Term Financial Strategy. The transformation covered resident experience, business support, Oracle ERP, and digital services — each with different stakeholders, dependencies, and political sensitivities.</p>
+        </div>
+        <div class="case-card-section">
+          <h4>What I Did</h4>
+          <p>I designed and directed the £7.5m modernisation portfolio from scratch — establishing governance, programme boards, risk and dependency management, reporting, and benefits tracking. I held corporate director responsibility for DDaT and Resident Experience for a year while the permanent role was vacant.</p>
+          <p>I worked directly with the Chief Executive, Cabinet Members, and Scrutiny Committee to align the programme to council priorities and secure political support.</p>
+        </div>
+      </div>
+      <div class="case-card-results">
+        <div class="case-result"><span class="case-result-num">£4m+</span><span class="case-result-label">Annual benefits delivered</span></div>
+        <div class="case-result"><span class="case-result-num">£7.5m</span><span class="case-result-label">Portfolio budget directed</span></div>
+        <div class="case-result"><span class="case-result-num">£1.5m</span><span class="case-result-label">Overspend eliminated</span></div>
+        <div class="case-result"><span class="case-result-num">50+</span><span class="case-result-label">Functions transformed</span></div>
+      </div>
+    </div>
+
+    <div class="case-card fade-in">
+      <div class="case-card-header">
+        <div class="case-card-label">London Borough | 2021–2023</div>
+        <h3>Workplace Transformation &amp; Estate Rationalisation</h3>
+      </div>
+      <div class="case-card-body">
+        <div class="case-card-section">
+          <h4>The Situation</h4>
+          <p>A London borough needed to transform its workplace model following COVID-19, rationalise its estate, and reset its approach to resident experience — all under significant budget pressure.</p>
+        </div>
+        <div class="case-card-section">
+          <h4>What I Did</h4>
+          <p>I led the FutureWork programme covering four workstreams: People, Technology, Place, and Paperless. I established pilot offices, evaluated design and technology requirements, and developed the business case for property disposal and estate modernisation. I also conducted a rapid review of the resident experience programme, securing funding and laying the foundation for a new operating model.</p>
+        </div>
+      </div>
+      <div class="case-card-results">
+        <div class="case-result"><span class="case-result-num">£10.8m</span><span class="case-result-label">Cumulative benefits</span></div>
+        <div class="case-result"><span class="case-result-num">4.3 yrs</span><span class="case-result-label">Return on investment</span></div>
+        <div class="case-result"><span class="case-result-num">£3.37m</span><span class="case-result-label">Funding secured</span></div>
+        <div class="case-result"><span class="case-result-num">5,500</span><span class="case-result-label">Staff workstyles established</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top: 80px;">
+      <div class="section-label">Video Case Studies</div>
+      <h2 class="section-heading" style="font-size: 32px;">See the work <span class="gold">in action.</span></h2>
+    </div>
+
+    <div class="case-card fade-in">
+      <div class="case-card-header">
+        <div class="case-card-label">Video | London Borough of Redbridge</div>
+        <h3>SMART Technology Programme — In My Own Words</h3>
+      </div>
+      <div class="case-card-body">
+        <p>A reflection on the technology transformation programme I led at the London Borough of Redbridge, delivering 2,300+ devices, directing the technical fit-out of a 12-floor office, and repackaging 390 applications for the Windows 10 migration.</p>
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/F1ld6xAflrc" title="Tony Morrison - Redbridge SMART Programme" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-card fade-in">
+      <div class="case-card-header">
+        <div class="case-card-label">Video | London Borough of Islington</div>
+        <h3>Workplace Design — Bringing the Vision to Life</h3>
+      </div>
+      <div class="case-card-body">
+        <p>A walkthrough of the office designs I led at the London Borough of Islington as part of the FutureWork programme — transforming the estate into modern, flexible workspaces that support new ways of working.</p>
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/nKWpxjqCX5s" title="Tony Morrison - Islington Workplace Design" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 80px;">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-heading" style="font-size: 32px;">What it's like to <span class="gold">work with me.</span></h2>
+      <p class="section-intro">Colleagues and stakeholders share their experience of working with me on transformation programmes.</p>
+    </div>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-video fade-in">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/vFxC08vaOPs" title="Working with Tony Morrison - Testimonial 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="testimonial-video fade-in">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/EvxpAsJopE8" title="Working with Tony Morrison - Testimonial 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="testimonial-video fade-in">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/gcIFUalhqr8" title="Working with Tony Morrison - Testimonial 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="testimonial-video fade-in">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/qN-6HkNN55w" title="Working with Tony Morrison - Testimonial 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- ==================== CONTACT ==================== -->
+<div class="page" id="page-contact">
+  <section style="padding-top: 140px;">
+    <div class="section-label">Contact</div>
+    <h2 class="section-heading">Let's <span class="gold">talk.</span></h2>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>If you're a public sector organisation looking for an experienced programme director to lead your transformation, modernisation, or reorganisation programme, I'd welcome a conversation.</p>
+
+        <div class="contact-detail">
+          <div class="contact-label">Email</div>
+          <a href="mailto:tony@morrison.consulting">tony@morrison.consulting</a>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-label">Phone</div>
+          <a href="tel:+447721014328">+44 7721 014328</a>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-label">LinkedIn</div>
+          <a href="https://www.linkedin.com/in/tonymorrison1122" target="_blank">linkedin.com/in/tonymorrison1122</a>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.08);">
+          <div class="contact-label">Availability</div>
+          <p style="margin-top: 8px;">Based in Dorset and London. Available for long-term contracts, defined short-term work packages, and speaker or facilitator events. Working across the UK on a hybrid basis.</p>
+        </div>
+
+        <div style="margin-top: 30px;">
+          <div class="contact-label">Operating Through</div>
+          <p style="margin-top: 8px; color: var(--grey-light);">Marrufo Consultancy Ltd</p>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <input type="text" placeholder="Your Name" id="formName">
+        <input type="email" placeholder="Your Email" id="formEmail">
+        <input type="text" placeholder="Organisation" id="formOrg">
+        <textarea placeholder="How can I help?" id="formMsg"></textarea>
+        <button onclick="sendForm()">Send Message</button>
+        <p id="formSuccess" style="display:none; color: var(--gold); margin-top: 16px; font-weight: 500;">Thank you — I'll be in touch shortly.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Morrison Consulting | <a href="mailto:tony@morrison.consulting">tony@morrison.consulting</a> | <a href="https://www.linkedin.com/in/tonymorrison1122" target="_blank">LinkedIn</a></p>
+</footer>
+
+<script>
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('navLinks').classList.remove('open');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  // Trigger fade-ins
+  setTimeout(() => {
+    document.querySelectorAll('.page.active .fade-in').forEach(el => el.classList.add('visible'));
+  }, 200);
+}
+
+// Scroll-triggered fade-ins
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Trigger initial page fade-ins
+window.addEventListener('load', () => {
+  document.querySelectorAll('.page.active .fade-in').forEach(el => el.classList.add('visible'));
+});
+
+// Simple form handler
+function sendForm() {
+  const name = document.getElementById('formName').value;
+  const email = document.getElementById('formEmail').value;
+  const msg = document.getElementById('formMsg').value;
+  if (name && email && msg) {
+    // Open mailto as fallback
+    window.location.href = 'mailto:tony@morrison.consulting?subject=Enquiry from ' + encodeURIComponent(name) + '&body=' + encodeURIComponent(msg + '\n\nFrom: ' + name + '\nEmail: ' + email);
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+}
+</script>
+
+</body>
+</html>
