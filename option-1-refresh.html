@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option 1: Refresh — Red Quadrant Homepage Preview</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --magenta: #FA03A9;
+  --magenta-dark: #C80287;
+  --brown: #301D10;
+  --gray-warm: #61615F;
+  --cream: #F8F4F1;
+  --gray-light: #E7EAEA;
+  --pink: #F3C7C4;
+  --white: #FFFFFF;
+}
+body {
+  font-family: 'Avenir LT W01', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  background: var(--cream);
+  color: var(--brown);
+  line-height: 1.6;
+  font-size: 16px;
+}
+.preview-bar {
+  background: #0F172A;
+  color: #FFFFFF;
+  padding: 12px 24px;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: -apple-system, sans-serif;
+}
+.preview-bar a { color: #FA03A9; text-decoration: none; font-weight: 600; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+/* Nav */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-family: 'Avenir LT W01', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--brown);
+}
+.logo span { color: var(--magenta); }
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--brown);
+  text-decoration: none;
+  font-weight: 300;
+  font-size: 15px;
+}
+.nav-links a:hover { color: var(--magenta); }
+/* Page banner */
+.page-banner {
+  background: var(--magenta);
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  text-align: center;
+}
+.page-banner h1 {
+  font-weight: 800;
+  font-size: 42px;
+  font-family: 'Avenir LT W01', sans-serif;
+}
+/* Hero */
+.hero {
+  padding: 96px 48px;
+  text-align: center;
+  background: var(--cream);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.hero h2 {
+  font-weight: 800;
+  font-size: 32px;
+  margin-bottom: 24px;
+  color: var(--brown);
+}
+.hero p {
+  font-size: 18px;
+  color: var(--gray-warm);
+  max-width: 720px;
+  margin: 0 auto 40px;
+}
+.cta-btn {
+  display: inline-block;
+  background: var(--magenta);
+  color: var(--white);
+  padding: 16px 32px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background 200ms ease;
+}
+.cta-btn:hover { background: var(--magenta-dark); }
+.cta-btn.secondary {
+  background: transparent;
+  color: var(--magenta);
+  border: 2px solid var(--magenta);
+  margin-left: 16px;
+}
+.ft-badge {
+  display: inline-block;
+  margin-top: 32px;
+  padding: 8px 16px;
+  background: var(--gray-light);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--brown);
+  font-weight: 300;
+}
+/* Stats bar */
+.stats {
+  background: var(--brown);
+  padding: 64px 48px;
+  color: var(--white);
+}
+.stats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+  text-align: center;
+}
+.stat-number {
+  font-weight: 800;
+  font-size: 48px;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 14px;
+  color: var(--pink);
+  font-weight: 300;
+}
+/* Services */
+.section {
+  padding: 96px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.section-header h2 {
+  font-weight: 800;
+  font-size: 32px;
+  color: var(--brown);
+  margin-bottom: 16px;
+}
+.section-header p {
+  font-size: 16px;
+  color: var(--gray-warm);
+  max-width: 640px;
+  margin: 0 auto;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.service-card {
+  background: var(--gray-light);
+  padding: 32px;
+  border-radius: 4px;
+}
+.service-card h3 {
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--brown);
+  margin-bottom: 16px;
+}
+.service-card p {
+  font-size: 15px;
+  color: var(--gray-warm);
+  margin-bottom: 20px;
+}
+.service-card a {
+  color: var(--magenta);
+  text-decoration: underline;
+  font-weight: 800;
+  font-size: 14px;
+}
+/* LGR feature */
+.lgr-feature {
+  background: var(--pink);
+  padding: 96px 48px;
+}
+.lgr-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.lgr-feature h2 {
+  font-weight: 800;
+  font-size: 42px;
+  color: var(--brown);
+  margin-bottom: 24px;
+}
+.lgr-feature p {
+  font-size: 18px;
+  color: var(--brown);
+  max-width: 720px;
+  margin: 0 auto 32px;
+}
+/* CTA block */
+.cta-block {
+  background: var(--cream);
+  border-top: 1px solid var(--pink);
+  border-bottom: 1px solid var(--pink);
+  padding: 96px 48px;
+  text-align: center;
+}
+.cta-block h2 {
+  font-weight: 800;
+  font-size: 32px;
+  color: var(--brown);
+  margin-bottom: 16px;
+}
+.cta-block p {
+  font-size: 16px;
+  color: var(--gray-warm);
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+/* Footer */
+footer {
+  background: var(--brown);
+  color: var(--cream);
+  padding: 64px 48px 32px;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+.footer-col h4 {
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--white);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.footer-col a {
+  display: block;
+  color: var(--pink);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.footer-bottom {
+  max-width: 1200px;
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-warm);
+  text-align: center;
+  font-size: 13px;
+  color: var(--pink);
+}
+</style>
+</head>
+<body>
+
+<div class="preview-bar">
+  <span><strong>OPTION 1: REFRESH</strong> &middot; Projected score ~2.9/5 &middot; Tier 3</span>
+  <a href="index.html">&larr; Back to all 4 options</a>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Red<span>Quadrant</span></div>
+    <ul class="nav-links">
+      <li><a href="#">What We Do</a></li>
+      <li><a href="#">Our Work</a></li>
+      <li><a href="#">LGR Hub</a></li>
+      <li><a href="#">Our Approach</a></li>
+      <li><a href="#">People</a></li>
+      <li><a href="#">Insights</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-banner">
+  <h1>Public Service Transformation</h1>
+</div>
+
+<div class="hero-image-wrap" style="max-width: 1200px; margin: 0 auto; padding: 48px 48px 0;"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80" alt="Council workshop team" style="width: 100%; height: 480px; object-fit: cover; border-radius: 4px;"></div>
+
+<section class="hero">
+  <h2>Delivered with councils, not to them.</h2>
+  <p>For 18 years we have helped 100+ councils, housing associations, and public bodies deliver transformation that sticks. Our LGR and digital specialists work inside your governance, not alongside it.</p>
+  <a href="#" class="cta-btn">Talk to a consultant</a>
+  <a href="#" class="cta-btn secondary">Explore our work</a>
+  <div class="ft-badge">FT &middot; UK's Leading Management Consultants &middot; Recognised every year since 2018</div>
+</section>
+
+<section class="stats">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-number">100+</div>
+      <div class="stat-label">Councils worked with</div>
+    </div>
+    <div>
+      <div class="stat-number">~2,000</div>
+      <div class="stat-label">Practitioners trained</div>
+    </div>
+    <div>
+      <div class="stat-number">18</div>
+      <div class="stat-label">Years of sector focus</div>
+    </div>
+    <div>
+      <div class="stat-number">97.2%</div>
+      <div class="stat-label">Client return rate</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2>What we do</h2>
+    <p>Nine service areas, one integrated team. Every engagement draws on specialist experience across transformation, digital, and sector depth.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <h3>Transformation &amp; Change</h3>
+      <p>Strategy, operating models, programme delivery, organisational design. We help councils plan and deliver transformation that holds up under political and financial pressure.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+    <div class="service-card">
+      <h3>Digital Transformation</h3>
+      <p>Digital strategy, customer platforms, channel shift, data and analytics. Digital as a means to better services, not as an end in itself.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+    <div class="service-card">
+      <h3>Housing</h3>
+      <p>Housing services review, arms-length management, tenant engagement, stock transfer. Specialist support for the sector's biggest current pressures.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+    <div class="service-card">
+      <h3>Adult Social Care</h3>
+      <p>Commissioning, transformation, market shaping, technology-enabled care. Evidence-led practice rooted in sector experience.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+    <div class="service-card">
+      <h3>Commissioning &amp; Procurement</h3>
+      <p>Category strategy, market engagement, outcome-based contracting, social value. Practical support that delivers savings and better outcomes.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+    <div class="service-card">
+      <h3>Customer Experience</h3>
+      <p>Customer journey design, channel strategy, contact centre transformation, service design. The citizen's voice at the centre.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+    <div class="service-card">
+      <h3>Leadership &amp; OD</h3>
+      <p>Executive coaching, leadership development, organisational culture, team effectiveness. Investing in the people who deliver.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+    <div class="service-card">
+      <h3>Design &amp; Rich Pictures</h3>
+      <p>Visual facilitation, service design, communications design, strategic storytelling. Making complex ideas shareable.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+    <div class="service-card">
+      <h3>Resourcing</h3>
+      <p>Interim placement, talent networks, specialist recruitment. Our Quadrant Resourcing arm supports clients with trusted associates.</p>
+      <a href="#">Learn more &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section class="lgr-feature">
+  <div class="lgr-inner">
+    <h2>LGR &amp; Devolution Hub</h2>
+    <p>Local Government Reorganisation is the biggest wave of council change in a generation. We have stood up three LGR engagement models — Strategic Partner, Programme Partner, Targeted Deployment — based on what each council actually needs.</p>
+    <a href="#" class="cta-btn">Visit the LGR Hub</a>
+  </div>
+</section>
+
+
+<section class="section" style="background: var(--gray-light); max-width: none; margin: 0; padding: 96px 48px;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="section-header">
+      <h2>Recent work</h2>
+      <p>Evidence from across the sector.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+      <div style="background: var(--white); border-radius: 4px; overflow: hidden;"><img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=1200&q=80" alt="Housing" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 24px;"><h3 style="font-weight: 800; font-size: 20px; color: var(--brown); margin-bottom: 8px;">Housing services review</h3><p style="font-size: 14px; color: var(--gray-warm); margin-bottom: 16px;">London Borough of Waltham Forest &mdash; &pound;4.2m savings identified.</p><a href="#" style="color: var(--magenta); font-weight: 800; font-size: 13px;">Read more &rarr;</a></div></div>
+      <div style="background: var(--white); border-radius: 4px; overflow: hidden;"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80" alt="Digital platform" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 24px;"><h3 style="font-weight: 800; font-size: 20px; color: var(--brown); margin-bottom: 8px;">Customer platform strategy</h3><p style="font-size: 14px; color: var(--gray-warm); margin-bottom: 16px;">Croydon Council &mdash; 38% reduction in inbound contact.</p><a href="#" style="color: var(--magenta); font-weight: 800; font-size: 13px;">Read more &rarr;</a></div></div>
+      <div style="background: var(--white); border-radius: 4px; overflow: hidden;"><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80" alt="Operating model" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 24px;"><h3 style="font-weight: 800; font-size: 20px; color: var(--brown); margin-bottom: 8px;">Target operating model</h3><p style="font-size: 14px; color: var(--gray-warm); margin-bottom: 16px;">Unitary transition &mdash; 18 months, 3 councils combined.</p><a href="#" style="color: var(--magenta); font-weight: 800; font-size: 13px;">Read more &rarr;</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-block">
+  <h2>Start a conversation</h2>
+  <p>We work with council leaders, chief executives, and programme directors who want an experienced delivery partner, not a glossy pitch deck.</p>
+  <a href="#" class="cta-btn">Talk to a consultant</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>Red Quadrant</h4>
+      <p style="color: var(--pink); font-size: 14px; line-height: 1.5;">Public service transformation consultancy.<br>Founded 2009. Recognised by the FT since 2018.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#">What We Do</a>
+      <a href="#">LGR Hub</a>
+      <a href="#">Our People</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Cookie Policy</a>
+      <a href="#">Accessibility Statement</a>
+      <a href="#">Carbon Reduction Plan</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 Red Quadrant Ltd. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>

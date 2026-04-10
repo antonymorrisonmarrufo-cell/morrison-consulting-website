@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option 4: Radical Redesign — Red Quadrant Homepage Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --indigo: #1B1340;
+  --indigo-dark: #120C2A;
+  --deep-purple: #2D2060;
+  --magenta: #E4007C;
+  --magenta-dark: #B80064;
+  --magenta-soft: #FFF0F7;
+  --ink: #0D0D0D;
+  --graphite: #52525B;
+  --zinc: #A1A1AA;
+  --zinc-border: #E4E4E7;
+  --snow: #FAFAFA;
+  --pearl: #F4F4F5;
+  --white: #FFFFFF;
+  --cyan: #06B6D4;
+  --sage: #22C55E;
+  --gold: #EAB308;
+}
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  background: var(--snow);
+  color: var(--ink);
+  line-height: 1.75;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+}
+.serif { font-family: 'Instrument Serif', Georgia, serif; }
+.preview-bar {
+  background: var(--indigo);
+  color: var(--white);
+  padding: 12px 32px;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.preview-bar a { color: var(--cyan); text-decoration: none; font-weight: 700; }
+.preview-bar strong { color: var(--white); }
+/* Nav */
+nav {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--zinc-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 80px;
+}
+.nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 32px;
+  color: var(--indigo);
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+.logo span {
+  color: var(--magenta);
+  font-style: italic;
+}
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  align-items: center;
+}
+.nav-links a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  position: relative;
+  transition: color 150ms ease;
+}
+.nav-links a:hover { color: var(--magenta); }
+.nav-cta {
+  background: var(--indigo);
+  color: var(--white) !important;
+  padding: 14px 28px;
+  border-radius: 100px;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 250ms cubic-bezier(0.16,1,0.3,1);
+}
+.nav-cta:hover { background: var(--magenta); transform: translateY(-2px); }
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, rgba(27,19,64,0.86) 0%, rgba(27,19,64,0.94) 100%), url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80") center/cover;
+  min-height: calc(100vh - 80px);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0 48px;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(228, 0, 124, 0.3) 0%, transparent 70%);
+  filter: blur(60px);
+  animation: float 20s ease-in-out infinite;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -150px;
+  left: 10%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+  filter: blur(80px);
+  animation: float 25s ease-in-out infinite reverse;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-30px, 40px); }
+}
+.hero-abstract {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 520px;
+  height: 520px;
+  pointer-events: none;
+}
+.hero-abstract svg { width: 100%; height: 100%; }
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0;
+}
+.overline {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 32px;
+}
+.hero-content h1 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  margin-bottom: 40px;
+}
+.hero-content h1 em {
+  font-style: italic;
+  color: var(--magenta);
+}
+.hero-content p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  color: var(--zinc);
+  max-width: 560px;
+  margin-bottom: 56px;
+  line-height: 1.65;
+  font-weight: 400;
+}
+.cta-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 64px;
+  flex-wrap: wrap;
+}
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--magenta);
+  color: var(--white);
+  padding: 20px 36px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  transition: all 300ms cubic-bezier(0.16,1,0.3,1);
+}
+.cta-btn:hover {
+  background: var(--magenta-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(228, 0, 124, 0.35);
+}
+.cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  color: var(--white);
+  padding: 20px 36px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 100px;
+  transition: all 200ms ease;
+}
+.cta-ghost:hover { background: rgba(255,255,255,0.06); border-color: var(--white); }
+.trust-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  max-width: 560px;
+}
+.trust-item {
+  font-size: 11px;
+  color: var(--zinc);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.trust-item strong { color: var(--white); font-weight: 700; }
+.scroll-indicator {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--zinc);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+/* Stats bar */
+.stats-bar {
+  background: var(--indigo);
+  padding: 120px 48px;
+  color: var(--white);
+  position: relative;
+}
+.stats-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 64px;
+  position: relative;
+  z-index: 2;
+}
+.stat-col {
+  border-left: 1px solid rgba(255,255,255,0.1);
+  padding-left: 32px;
+}
+.stat-col:first-child { border-left: none; padding-left: 0; }
+.stat-col .stat-number {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 96px;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.stat-col .stat-number em {
+  font-style: italic;
+  color: var(--magenta);
+}
+.stat-col .stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--zinc);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+/* Section */
+.section {
+  padding: 160px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.section-header { margin-bottom: 96px; max-width: 820px; }
+.section-header .overline { color: var(--magenta); }
+.section-header h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 88px;
+  line-height: 0.95;
+  color: var(--ink);
+  margin-bottom: 32px;
+  letter-spacing: -0.03em;
+}
+.section-header h2 em { font-style: italic; color: var(--magenta); }
+.section-header p {
+  font-size: 20px;
+  color: var(--graphite);
+  line-height: 1.75;
+  max-width: 680px;
+}
+/* Services */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.service-card {
+  background: var(--white);
+  border: 1px solid var(--zinc-border);
+  border-radius: 20px;
+  padding: 48px 40px;
+  position: relative;
+  transition: all 400ms cubic-bezier(0.16,1,0.3,1);
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--magenta);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 400ms ease;
+}
+.service-card:hover::before { transform: scaleX(1); }
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 64px rgba(27, 19, 64, 0.08);
+}
+.service-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--indigo);
+  margin-bottom: 32px;
+}
+.service-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke: var(--indigo);
+  stroke-width: 1.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.service-card h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--ink);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.service-card p {
+  font-size: 15px;
+  color: var(--graphite);
+  margin-bottom: 28px;
+  line-height: 1.75;
+}
+.tag-row { margin-bottom: 28px; }
+.tag {
+  display: inline-block;
+  background: var(--pearl);
+  color: var(--indigo);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-right: 6px;
+}
+.tag.cyan { background: rgba(6, 182, 212, 0.1); color: var(--cyan); }
+.tag.magenta { background: var(--magenta-soft); color: var(--magenta); }
+.card-footer {
+  padding-top: 24px;
+  border-top: 1px solid var(--zinc-border);
+}
+.service-card a {
+  color: var(--magenta);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Featured LGR card */
+.lgr-section {
+  background: var(--indigo);
+  padding: 160px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.lgr-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(228,0,124,0.15) 0%, transparent 70%);
+  filter: blur(80px);
+  transform: translateY(-50%);
+}
+.lgr-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 55% 45%;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.lgr-left .overline { color: var(--cyan); }
+.lgr-left h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 64px;
+  line-height: 1.02;
+  color: var(--white);
+  margin-bottom: 28px;
+  letter-spacing: -0.025em;
+  max-width: 640px;
+}
+.lgr-left h2 em { font-style: italic; color: var(--magenta); }
+.lgr-left p {
+  font-size: 20px;
+  color: var(--zinc);
+  margin-bottom: 48px;
+  line-height: 1.65;
+  max-width: 560px;
+}
+.lgr-right {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 56px 48px;
+}
+.lgr-right h3 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 32px;
+  color: var(--white);
+  margin-bottom: 40px;
+  letter-spacing: -0.01em;
+}
+.engagement-model {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+.engagement-model:last-child { border-bottom: none; }
+.engagement-num {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 32px;
+  color: var(--magenta);
+  line-height: 1;
+  font-style: italic;
+  min-width: 40px;
+}
+.engagement-content strong {
+  display: block;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+}
+.engagement-content span {
+  color: var(--zinc);
+  font-size: 14px;
+  line-height: 1.6;
+}
+/* Methodology */
+.methodology {
+  background: var(--pearl);
+  padding: 160px 48px;
+}
+.methodology-inner { max-width: 1400px; margin: 0 auto; }
+.methodology-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  margin-top: 80px;
+}
+.method-step {
+  padding: 48px 32px;
+  background: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--zinc-border);
+  position: relative;
+  transition: all 300ms ease;
+}
+.method-step:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(27,19,64,0.06);
+}
+.method-num {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 88px;
+  font-weight: 400;
+  color: var(--magenta);
+  line-height: 0.9;
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+  font-style: italic;
+}
+.method-step h4 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.method-step p {
+  font-size: 14px;
+  color: var(--graphite);
+  line-height: 1.7;
+}
+/* Insights */
+.insights { padding: 160px 48px; max-width: 1400px; margin: 0 auto; }
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 80px;
+}
+.insight-card {
+  background: var(--white);
+  border: 1px solid var(--zinc-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 400ms cubic-bezier(0.16,1,0.3,1);
+}
+.insight-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(27,19,64,0.08);
+}
+.insight-thumb {
+  height: 240px;
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--deep-purple) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.insight-thumb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(228, 0, 124, 0.4) 0%, transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);
+}
+.insight-card .content { padding: 32px 36px 36px; }
+.insight-card .overline {
+  color: var(--magenta);
+  margin-bottom: 12px;
+  font-size: 10px;
+}
+.insight-card h3 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 28px;
+  color: var(--ink);
+  margin-bottom: 16px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.insight-card .meta {
+  font-size: 12px;
+  color: var(--graphite);
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--zinc-border);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+/* CTA block */
+.cta-block {
+  background: var(--indigo);
+  padding: 160px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-block::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(circle, rgba(228,0,124,0.15) 0%, transparent 60%);
+  transform: translate(-50%, -50%);
+  filter: blur(100px);
+}
+.cta-block-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.cta-block .overline { color: var(--cyan); }
+.cta-block h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 112px;
+  color: var(--white);
+  margin-bottom: 40px;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+.cta-block h2 em { font-style: italic; color: var(--magenta); }
+.cta-block p {
+  font-size: 20px;
+  color: var(--zinc);
+  margin-bottom: 56px;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Footer */
+footer {
+  background: var(--indigo-dark);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  color: var(--zinc);
+  padding: 96px 48px 40px;
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 80px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.footer-col h4 {
+  font-weight: 800;
+  font-size: 11px;
+  color: var(--white);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.footer-col a {
+  display: block;
+  color: var(--zinc);
+  text-decoration: none;
+  font-size: 15px;
+  margin-bottom: 14px;
+  transition: color 150ms ease;
+}
+.footer-col a:hover { color: var(--magenta); }
+.footer-col p {
+  color: var(--graphite);
+  font-size: 15px;
+  line-height: 1.75;
+}
+.footer-logo {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 36px;
+  color: var(--white);
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+.footer-logo span { color: var(--magenta); font-style: italic; }
+.footer-bottom {
+  max-width: 1400px;
+  margin: 40px auto 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--graphite);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.footer-bottom a {
+  color: var(--graphite);
+  margin-left: 32px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+.footer-bottom a:hover { color: var(--magenta); }
+</style>
+</head>
+<body>
+
+<div class="preview-bar">
+  <span><strong>OPTION 4: RADICAL REDESIGN</strong> &middot; Projected score ~4.9/5 &middot; Tier 1</span>
+  <a href="index.html">&larr; Back to all 4 options</a>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Red<span>Quadrant</span></div>
+    <ul class="nav-links">
+      <li><a href="#">What We Do</a></li>
+      <li><a href="#">Our Work</a></li>
+      <li><a href="#">LGR Hub</a></li>
+      <li><a href="#">Approach</a></li>
+      <li><a href="#">People</a></li>
+      <li><a href="#">Insights</a></li>
+      <li><a href="#" class="nav-cta">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-abstract">
+    <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="260" cy="260" r="240" stroke="#E4007C" stroke-width="1.5" opacity="0.4"/>
+      <circle cx="260" cy="260" r="180" stroke="#06B6D4" stroke-width="1" opacity="0.5"/>
+      <circle cx="260" cy="260" r="120" stroke="#E4007C" stroke-width="1" opacity="0.6"/>
+      <circle cx="260" cy="260" r="60" fill="#E4007C" opacity="0.3"/>
+      <line x1="20" y1="260" x2="500" y2="260" stroke="#06B6D4" stroke-width="0.5" opacity="0.3"/>
+      <line x1="260" y1="20" x2="260" y2="500" stroke="#06B6D4" stroke-width="0.5" opacity="0.3"/>
+      <line x1="76" y1="76" x2="444" y2="444" stroke="#E4007C" stroke-width="0.5" opacity="0.2"/>
+      <line x1="444" y1="76" x2="76" y2="444" stroke="#E4007C" stroke-width="0.5" opacity="0.2"/>
+      <circle cx="260" cy="80" r="6" fill="#E4007C"/>
+      <circle cx="420" cy="220" r="4" fill="#06B6D4"/>
+      <circle cx="120" cy="360" r="5" fill="#E4007C"/>
+      <circle cx="380" cy="380" r="3" fill="#06B6D4"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <span class="overline">Public Service Transformation</span>
+    <h1>Transformation,<br><em>done properly.</em></h1>
+    <p>For 18 years we have helped 100+ councils deliver transformation that actually sticks. Inside governance, not alongside it. Specialists in LGR, digital, and the quiet work of making change last.</p>
+    <div class="cta-row">
+      <a href="#" class="cta-btn">Start a conversation</a>
+      <a href="#" class="cta-ghost">See our work</a>
+    </div>
+    <div class="trust-bar">
+      <div class="trust-item"><strong>FT</strong> &middot; Leading Management Consultants</div>
+      <div class="trust-item">Every year since <strong>2018</strong></div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">Scroll to explore &darr;</div>
+</section>
+
+<section class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-col">
+      <div class="stat-number">100<em>+</em></div>
+      <div class="stat-label">Councils worked with</div>
+    </div>
+    <div class="stat-col">
+      <div class="stat-number">2,000</div>
+      <div class="stat-label">Practitioners trained</div>
+    </div>
+    <div class="stat-col">
+      <div class="stat-number"><em>18</em></div>
+      <div class="stat-label">Years of sector focus</div>
+    </div>
+    <div class="stat-col">
+      <div class="stat-number">97<em>%</em></div>
+      <div class="stat-label">Client return rate</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <span class="overline">What we do</span>
+    <h2>Nine services.<br><em>One integrated</em> team.</h2>
+    <p>Every engagement draws on specialist experience across transformation, digital, and sector depth. We bring the right people together for what your organisation actually needs — and we stay long enough to see change take hold.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></div>
+      <h3>Transformation &amp; Change</h3>
+      <p>Strategy, operating models, programme delivery, organisational design. Transformation that holds up under political and financial pressure.</p>
+      <div class="tag-row"><span class="tag">LGR</span><span class="tag">Delivery</span></div>
+      <div class="card-footer"><a href="#">Explore &rarr;</a></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg></div>
+      <h3>Digital Transformation</h3>
+      <p>Digital strategy, customer platforms, channel shift, data and analytics. Digital as a means to better services, not an end in itself.</p>
+      <div class="tag-row"><span class="tag cyan">Digital</span><span class="tag">LGR</span></div>
+      <div class="card-footer"><a href="#">Explore &rarr;</a></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <h3>Housing</h3>
+      <p>Housing services review, arms-length management, tenant engagement, stock transfer. Specialist support for the sector's biggest pressures.</p>
+      <div class="tag-row"><span class="tag">Sector</span></div>
+      <div class="card-footer"><a href="#">Explore &rarr;</a></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg></div>
+      <h3>Adult Social Care</h3>
+      <p>Commissioning, transformation, market shaping, technology-enabled care. Evidence-led practice rooted in sector experience.</p>
+      <div class="tag-row"><span class="tag">Sector</span></div>
+      <div class="card-footer"><a href="#">Explore &rarr;</a></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg></div>
+      <h3>Commissioning</h3>
+      <p>Category strategy, market engagement, outcome-based contracting, social value. Practical support that delivers measurable savings.</p>
+      <div class="tag-row"><span class="tag">Procurement</span></div>
+      <div class="card-footer"><a href="#">Explore &rarr;</a></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <h3>Customer Experience</h3>
+      <p>Customer journey design, channel strategy, contact centre transformation, service design. The citizen's voice at the centre.</p>
+      <div class="tag-row"><span class="tag cyan">CX</span><span class="tag">Digital</span></div>
+      <div class="card-footer"><a href="#">Explore &rarr;</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="lgr-section">
+  <div class="lgr-inner">
+    <div class="lgr-left">
+      <span class="overline">LGR &amp; Devolution Hub</span>
+      <h2>Inside governance,<br><em>not alongside</em> it.</h2>
+      <p>Local Government Reorganisation is the biggest wave of council change in a generation. The LGR Hub is our standout asset — a codified practice with three engagement models. It already outperforms TPXimpact, Methods, and Public Digital on tender readiness.</p>
+      <a href="#" class="cta-btn">Visit the LGR Hub</a>
+    </div>
+    <div class="lgr-right">
+      <h3>Three ways we engage</h3>
+      <div class="engagement-model">
+        <div class="engagement-num">I</div>
+        <div class="engagement-content">
+          <strong>Strategic Partner</strong>
+          <span>End-to-end LGR delivery partnership, from discovery through to day-one operation of the new council.</span>
+        </div>
+      </div>
+      <div class="engagement-model">
+        <div class="engagement-num">II</div>
+        <div class="engagement-content">
+          <strong>Programme Partner</strong>
+          <span>Specialist support for defined workstreams — transition, digital, TOM design, customer experience.</span>
+        </div>
+      </div>
+      <div class="engagement-model">
+        <div class="engagement-num">III</div>
+        <div class="engagement-content">
+          <strong>Targeted Deployment</strong>
+          <span>Short, focused interventions on critical decisions. Rich pictures, scenario testing, stakeholder alignment.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="methodology">
+  <div class="methodology-inner">
+    <div class="section-header">
+      <span class="overline">The RedQuadrant Way</span>
+      <h2>How we <em>actually</em><br>work.</h2>
+      <p>A codified methodology refined across 100+ council engagements. Five phases, each with clear deliverables. Not a proprietary framework, but a commitment to showing our working.</p>
+    </div>
+    <div class="methodology-steps">
+      <div class="method-step">
+        <div class="method-num">I</div>
+        <h4>Discover</h4>
+        <p>Immersive diagnosis. We listen, observe, map, and understand before we recommend.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">II</div>
+        <h4>Design</h4>
+        <p>Co-design with the people who will live with the outcome. Systems thinking applied.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">III</div>
+        <h4>Deliver</h4>
+        <p>Programme delivery inside client governance. Named accountability. Real schedules.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">IV</div>
+        <h4>Embed</h4>
+        <p>Change management, leadership coaching, capability building. Making it stick.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">V</div>
+        <h4>Transfer</h4>
+        <p>Knowledge transfer to client teams. We leave, but the capability stays behind.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="insights">
+  <div class="section-header">
+    <span class="overline">Insights</span>
+    <h2>Thinking from<br><em>the practice.</em></h2>
+    <p>Current thinking on LGR, digital transformation, and the shape of local government reform.</p>
+  </div>
+  <div class="insights-grid">
+    <div class="insight-card">
+      <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80" alt="LGR article" style="width: 100%; height: 240px; object-fit: cover; display: block;">
+      <div class="content">
+        <span class="overline">LGR</span>
+        <h3>Unitarisation without the pain: lessons from three council mergers</h3>
+        <div class="meta">BENJAMIN TAYLOR &middot; 8 APR 2026 &middot; 12 MIN</div>
+      </div>
+    </div>
+    <div class="insight-card">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=80" alt="Digital article" style="width: 100%; height: 240px; object-fit: cover; display: block;">
+      <div class="content">
+        <span class="overline">Digital</span>
+        <h3>What councils actually need from a customer platform</h3>
+        <div class="meta">NATASA SEARS &middot; 2 APR 2026 &middot; 9 MIN</div>
+      </div>
+    </div>
+    <div class="insight-card">
+      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80" alt="Methodology article" style="width: 100%; height: 240px; object-fit: cover; display: block;">
+      <div class="content">
+        <span class="overline">Methodology</span>
+        <h3>Why we work inside your governance, not alongside it</h3>
+        <div class="meta">ANTONY MARRUFO &middot; 28 MAR 2026 &middot; 7 MIN</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-block">
+  <div class="cta-block-inner">
+    <span class="overline">Let's begin</span>
+    <h2>Start a<br><em>conversation.</em></h2>
+    <p>We work with council leaders, chief executives, and programme directors who want an experienced delivery partner — not a glossy pitch deck.</p>
+    <div class="cta-row" style="justify-content: center;">
+      <a href="#" class="cta-btn">Talk to a consultant</a>
+      <a href="#" class="cta-ghost">Book a discovery call</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <div class="footer-logo">Red<span>Quadrant</span></div>
+      <p>Public service transformation consultancy. Founded 2009. Recognised by the FT as one of the UK's Leading Management Consultants every year since 2018.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#">Transformation</a>
+      <a href="#">Digital</a>
+      <a href="#">Housing</a>
+      <a href="#">Adult Social Care</a>
+      <a href="#">Commissioning</a>
+      <a href="#">Leadership &amp; OD</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="#">Case Studies</a>
+      <a href="#">LGR Hub</a>
+      <a href="#">The RedQuadrant Way</a>
+      <a href="#">Insights</a>
+      <a href="#">Frameworks</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="#">London office</a>
+      <a href="#">contact@redquadrant.com</a>
+      <a href="#">Join our network</a>
+      <a href="#">Newsletter</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>&copy; 2026 Red Quadrant Ltd. All rights reserved.</div>
+    <div>
+      <a href="#">Privacy</a>
+      <a href="#">Cookies</a>
+      <a href="#">Accessibility</a>
+      <a href="#">Modern Slavery</a>
+      <a href="#">Carbon Reduction</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
