@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#111418">
+<title>Clip Club — Barber Loyalty Card</title>
+<meta name="description" content="A simple digital loyalty card for barbers. Collect a stamp per haircut — every 10th cut is free. Stamps are authorised by the barber's PIN.">
+<style>
+:root{
+  --bg:#111418;
+  --panel:#1a1f26;
+  --panel-2:#222932;
+  --line:rgba(255,255,255,0.08);
+  --ink:#f4f6f8;
+  --muted:#95a0ad;
+  --gold:#e0b048;
+  --gold-2:#f0c766;
+  --red:#c8402f;
+  --green:#3faa6a;
+  --radius:16px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.5;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;}
+
+/* ===== Barber pole top bar ===== */
+.pole{height:6px;background:repeating-linear-gradient(115deg,var(--red) 0 14px,#f4f6f8 14px 28px,#2a6bd4 28px 42px);}
+
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;border-bottom:1px solid var(--line);
+  position:sticky;top:0;background:rgba(17,20,24,0.92);backdrop-filter:blur(10px);z-index:20;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:.2px;}
+.brand .mark{
+  width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1a1206;font-weight:800;
+}
+.lockpill{
+  font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+  padding:6px 11px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+  border:1px solid var(--line);
+}
+.lockpill.locked{background:rgba(200,64,47,0.14);color:#f0a79b;border-color:rgba(200,64,47,0.35);}
+.lockpill.unlocked{background:rgba(63,170,106,0.14);color:#8fe0b0;border-color:rgba(63,170,106,0.35);}
+
+main{flex:1;padding:18px;}
+.screen{display:none;animation:fade .25s ease;}
+.screen.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+h1{font-size:24px;font-weight:800;letter-spacing:-.4px;margin-bottom:6px;}
+h2{font-size:18px;font-weight:700;margin-bottom:4px;}
+.sub{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);font-weight:700;margin-bottom:10px;}
+
+/* ===== Buttons / inputs ===== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  padding:15px 18px;border-radius:12px;border:none;cursor:pointer;
+  font-family:var(--font);font-size:16px;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1a1206;transition:transform .08s,filter .2s;
+}
+.btn:active{transform:scale(.98);}
+.btn.secondary{background:var(--panel-2);color:var(--ink);border:1px solid var(--line);}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);}
+.btn.danger{background:transparent;color:#f0a79b;border:1px solid rgba(200,64,47,0.4);}
+.btn.green{background:linear-gradient(135deg,#3faa6a,#4fc27e);color:#04180d;}
+.btn+.btn{margin-top:10px;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+
+input[type=text],input[type=tel]{
+  width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line);
+  background:var(--panel);color:var(--ink);font-size:16px;font-family:var(--font);margin-bottom:12px;
+}
+input:focus{outline:none;border-color:var(--gold);}
+.field-label{font-size:13px;color:var(--muted);margin-bottom:6px;display:block;}
+
+.card-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:16px;}
+.hint{font-size:13px;color:var(--muted);margin-top:8px;}
+
+/* ===== PIN keypad ===== */
+.pin-dots{display:flex;gap:14px;justify-content:center;margin:22px 0;}
+.pin-dot{width:15px;height:15px;border-radius:50%;border:2px solid var(--muted);transition:.15s;}
+.pin-dot.filled{background:var(--gold);border-color:var(--gold);transform:scale(1.1);}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:300px;margin:0 auto;}
+.key{
+  aspect-ratio:1.4/1;border-radius:14px;border:1px solid var(--line);background:var(--panel-2);
+  color:var(--ink);font-size:26px;font-weight:600;cursor:pointer;transition:transform .08s,background .15s;
+}
+.key:active{transform:scale(.95);background:#2c343e;}
+.key.wide{font-size:15px;font-weight:700;}
+.pin-msg{text-align:center;color:#f0a79b;font-size:14px;min-height:20px;margin-top:10px;font-weight:600;}
+.pin-title{text-align:center;font-size:19px;font-weight:700;margin-bottom:2px;}
+.pin-caption{text-align:center;color:var(--muted);font-size:14px;margin-bottom:6px;}
+
+/* ===== Customer list ===== */
+.searchbar{position:relative;margin-bottom:14px;}
+.searchbar input{margin-bottom:0;padding-left:42px;}
+.searchbar svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);}
+.cust-row{
+  display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--line);
+  border-radius:14px;background:var(--panel);margin-bottom:10px;cursor:pointer;transition:border-color .15s,transform .08s;
+}
+.cust-row:active{transform:scale(.99);}
+.cust-row:hover{border-color:var(--gold);}
+.avatar{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:grid;place-items:center;font-weight:800;font-size:17px;background:var(--panel-2);color:var(--gold);}
+.cust-meta{flex:1;min-width:0;}
+.cust-name{font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cust-sub{font-size:13px;color:var(--muted);}
+.mini-progress{height:6px;border-radius:4px;background:var(--panel-2);overflow:hidden;margin-top:7px;}
+.mini-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-2));}
+.badge-free{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#04180d;background:var(--gold);padding:3px 8px;border-radius:999px;flex-shrink:0;}
+.empty{text-align:center;color:var(--muted);padding:40px 20px;}
+
+/* ===== Stamp card ===== */
+.stampcard{
+  background:linear-gradient(160deg,#20272f,#171c22);
+  border:1px solid var(--line);border-radius:20px;padding:22px;position:relative;overflow:hidden;margin-bottom:18px;
+}
+.stampcard::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% -10%,rgba(224,176,72,0.16),transparent 55%);pointer-events:none;}
+.sc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;position:relative;}
+.sc-name{font-size:22px;font-weight:800;letter-spacing:-.3px;}
+.sc-phone{font-size:13px;color:var(--muted);}
+.sc-count{text-align:right;}
+.sc-count b{font-size:30px;color:var(--gold);line-height:1;}
+.sc-count span{font-size:13px;color:var(--muted);display:block;}
+.stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:20px 0 4px;position:relative;}
+.stamp{
+  aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  border:2px dashed rgba(255,255,255,0.16);color:rgba(255,255,255,0.16);transition:.25s;
+}
+.stamp.filled{border-style:solid;border-color:var(--gold);background:rgba(224,176,72,0.14);color:var(--gold);animation:pop .3s ease;}
+.stamp.free{border-style:solid;border-color:var(--gold-2);}
+.stamp.free.claimable{background:rgba(224,176,72,0.22);box-shadow:0 0 0 3px rgba(224,176,72,0.25);animation:pulse 1.6s infinite;}
+.stamp svg{width:56%;height:56%;}
+.stamp .freetxt{font-size:10px;font-weight:800;letter-spacing:.3px;color:var(--gold-2);}
+@keyframes pop{0%{transform:scale(.4);opacity:0;}70%{transform:scale(1.12);}100%{transform:scale(1);opacity:1;}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(224,176,72,0.25);}50%{box-shadow:0 0 0 7px rgba(224,176,72,0.05);}}
+.freebanner{
+  display:flex;align-items:center;gap:10px;background:rgba(224,176,72,0.14);border:1px solid rgba(224,176,72,0.4);
+  color:var(--gold-2);padding:12px 14px;border-radius:12px;font-weight:700;font-size:14px;margin-bottom:16px;
+}
+.lifetime{display:flex;gap:10px;margin-bottom:16px;}
+.stat{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;}
+.stat b{font-size:20px;color:var(--ink);display:block;}
+.stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
+
+/* history */
+.hist{margin-top:8px;}
+.hist-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;}
+.hist-item:last-child{border-bottom:none;}
+.hist-ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex-shrink:0;font-size:14px;}
+.hist-ic.stamp{background:rgba(224,176,72,0.14);color:var(--gold);}
+.hist-ic.redeem{background:rgba(63,170,106,0.16);color:#8fe0b0;}
+.hist-ic.undo{background:rgba(200,64,47,0.14);color:#f0a79b;}
+.hist-meta{flex:1;}
+.hist-when{color:var(--muted);font-size:12px;}
+
+/* back link */
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:16px;background:none;border:none;font-family:var(--font);}
+
+/* settings rows */
+.set-row{display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-bottom:1px solid var(--line);gap:14px;}
+.set-row:last-child{border-bottom:none;}
+.set-row .k{font-weight:600;font-size:15px;}
+.set-row .d{font-size:13px;color:var(--muted);}
+.switch{position:relative;width:50px;height:29px;flex-shrink:0;}
+.switch input{display:none;}
+.switch .slider{position:absolute;inset:0;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;transition:.2s;cursor:pointer;}
+.switch .slider::before{content:"";position:absolute;width:21px;height:21px;left:3px;top:3px;background:var(--muted);border-radius:50%;transition:.2s;}
+.switch input:checked+.slider{background:rgba(63,170,106,0.4);border-color:var(--green);}
+.switch input:checked+.slider::before{transform:translateX(21px);background:#eafff3;}
+
+/* ===== Modal / toast ===== */
+.overlay{position:fixed;inset:0;background:rgba(6,8,11,0.72);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:50;}
+.overlay.show{display:flex;}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px;width:100%;max-width:380px;animation:fade .2s ease;}
+.modal h3{font-size:19px;margin-bottom:8px;}
+.modal p{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.celebrate{text-align:center;}
+.celebrate .big{font-size:56px;margin-bottom:6px;animation:pop .4s ease;}
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
+  background:var(--panel-2);border:1px solid var(--line);color:var(--ink);padding:12px 20px;border-radius:999px;
+  font-size:14px;font-weight:600;opacity:0;transition:.25s;z-index:60;pointer-events:none;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.good{border-color:var(--green);}
+footer{padding:18px;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--line);}
+footer a{color:var(--gold);text-decoration:none;}
+.row2{display:flex;gap:10px;}
+.row2 .btn{margin-top:0;}
+
+/* customer read-only view */
+.cust-hero{padding-top:10px;text-align:center;}
+.cust-hero h1{font-size:26px;}
+.cust-shop{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:10px;}
+.cust-hero .stampcard{text-align:left;}
+
+/* stats grid */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.stat-grid .stat{padding:16px 12px;}
+.stat-grid .stat b{font-size:26px;color:var(--gold);}
+.rank-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;}
+.rank-row:last-child{border-bottom:none;}
+.rank-n{width:24px;color:var(--muted);font-weight:700;}
+.rank-name{flex:1;font-weight:600;}
+.rank-val{color:var(--gold);font-weight:700;}
+
+/* QR */
+.qr-wrap{background:#fff;border-radius:14px;padding:14px;display:flex;justify-content:center;margin-bottom:14px;}
+.qr-wrap svg{width:100%;height:auto;max-width:260px;display:block;}
+.link-box{display:flex;gap:8px;margin-bottom:6px;}
+.link-box input{margin-bottom:0;font-size:13px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="pole"></div>
+  <header>
+    <div class="brand"><div class="mark" id="brandMark">✂</div><span id="brandName">Clip Club</span></div>
+    <div class="lockpill locked" id="lockPill" onclick="App.toggleLock()"><span id="lockIco">🔒</span><span id="lockTxt">Locked</span></div>
+  </header>
+
+  <main>
+    <!-- ============ CUSTOMER VIEW (read-only, opened from QR/link) ============ -->
+    <section class="screen" id="screen-customer">
+      <div class="cust-hero">
+        <div class="cust-shop" id="cvShop">Loyalty Card</div>
+        <h1 id="cvName">—</h1>
+        <div class="stampcard" id="cvCard" style="margin-top:16px;"></div>
+        <div id="cvBanner"></div>
+        <p class="hint" style="text-align:center;">Show this screen to your barber to collect your next stamp.</p>
+        <p class="hint" style="text-align:center;opacity:.75;" id="cvAsOf"></p>
+      </div>
+    </section>
+
+    <!-- ============ SETUP ============ -->
+    <section class="screen" id="screen-setup">
+      <h1>Set up your shop</h1>
+      <p class="sub">A one-time setup. This becomes the barber's private control panel — customers can't add their own stamps.</p>
+
+      <div id="setup-step1">
+        <div class="card-box">
+          <span class="field-label">Shop name</span>
+          <input type="text" id="setupShop" placeholder="e.g. Clip Club Barbers" maxlength="28">
+          <span class="field-label">Stamps for a free haircut</span>
+          <input type="tel" id="setupGoal" value="10" maxlength="2" inputmode="numeric">
+          <p class="hint">Default: collect 10 — the 10th cut is on the house, then the card resets.</p>
+        </div>
+        <button class="btn" onclick="App.setupNext()">Next: create barber PIN →</button>
+      </div>
+
+      <div id="setup-step2" style="display:none;">
+        <div class="pin-title" id="setupPinTitle">Create a 4-digit barber PIN</div>
+        <p class="pin-caption">Only you should know this. You'll enter it to authorise stamps and rewards. Keep it secret from customers.</p>
+        <div class="pin-dots" id="setupDots"></div>
+        <div id="setupKeypad"></div>
+        <div class="pin-msg" id="setupPinMsg"></div>
+        <button class="back" onclick="App.setupBack()">← Back</button>
+      </div>
+    </section>
+
+    <!-- ============ LOCK ============ -->
+    <section class="screen" id="screen-lock">
+      <div class="pin-title">Barber PIN</div>
+      <p class="pin-caption" id="lockCaption">Enter your PIN to manage cards</p>
+      <div class="pin-dots" id="lockDots"></div>
+      <div id="lockKeypad"></div>
+      <div class="pin-msg" id="lockPinMsg"></div>
+      <p class="hint" style="text-align:center;margin-top:22px;"><a href="#" onclick="App.forgotPin();return false;" style="color:var(--muted);">Forgot PIN?</a></p>
+    </section>
+
+    <!-- ============ HOME (customer list) ============ -->
+    <section class="screen" id="screen-home">
+      <h1 id="homeTitle">Loyalty cards</h1>
+      <p class="sub" id="homeSub">Tap a customer to view their card and add a stamp.</p>
+      <div class="searchbar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input type="text" id="search" placeholder="Search name or phone…" oninput="App.renderList()">
+      </div>
+      <div id="custList"></div>
+      <button class="btn" style="margin-top:8px;" onclick="App.openNewCustomer()">+ New customer</button>
+      <div class="row2" style="margin-top:10px;">
+        <button class="btn ghost" onclick="App.openStats()">📊 Shop stats</button>
+        <button class="btn ghost" onclick="App.show('screen-settings');App.renderSettings();">⚙ Settings</button>
+      </div>
+    </section>
+
+    <!-- ============ CARD ============ -->
+    <section class="screen" id="screen-card">
+      <button class="back" onclick="App.show('screen-home');App.renderList();">← All cards</button>
+      <div class="stampcard" id="cardVisual"></div>
+      <div id="cardBanner"></div>
+      <div id="cardActions"></div>
+      <button class="btn secondary" style="margin-top:10px;" onclick="App.shareCard()">📱 Show customer their card (QR)</button>
+      <div class="lifetime" id="cardLifetime" style="margin-top:16px;"></div>
+      <div class="card-box">
+        <div class="label">History</div>
+        <div class="hist" id="cardHist"></div>
+      </div>
+      <button class="btn danger" style="margin-top:4px;" onclick="App.deleteCustomer()">Remove this customer</button>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section class="screen" id="screen-settings">
+      <button class="back" onclick="App.show('screen-home');App.renderList();">← Back</button>
+      <h1>Settings</h1>
+      <p class="sub">Manage your shop, security and data.</p>
+
+      <div class="card-box">
+        <div class="label">Shop</div>
+        <div class="set-row"><div><div class="k">Shop name</div><div class="d" id="setShopName">—</div></div><button class="btn secondary" style="width:auto;padding:9px 14px;" onclick="App.editShopName()">Edit</button></div>
+        <div class="set-row"><div><div class="k">Stamps per free cut</div><div class="d" id="setGoal">10</div></div><button class="btn secondary" style="width:auto;padding:9px 14px;" onclick="App.editGoal()">Edit</button></div>
+      </div>
+
+      <div class="card-box">
+        <div class="label">Security</div>
+        <div class="set-row">
+          <div><div class="k">Require PIN for every stamp</div><div class="d">On = safest (also for a shared/customer device). Off = unlock once, then stamp freely.</div></div>
+          <label class="switch"><input type="checkbox" id="setPerStamp" onchange="App.togglePerStamp(this.checked)"><span class="slider"></span></label>
+        </div>
+        <div class="set-row">
+          <div><div class="k">Auto-lock</div><div class="d">Re-locks after inactivity so no one can grab it.</div></div>
+          <label class="switch"><input type="checkbox" id="setAutoLock" onchange="App.toggleAutoLock(this.checked)"><span class="slider"></span></label>
+        </div>
+        <div class="set-row"><div><div class="k">Change barber PIN</div></div><button class="btn secondary" style="width:auto;padding:9px 14px;" onclick="App.changePin()">Change</button></div>
+      </div>
+
+      <div class="card-box">
+        <div class="label">Backup &amp; data</div>
+        <p class="hint" style="margin-top:0;margin-bottom:14px;">Cards are stored on this device only. Back up regularly so you never lose them (e.g. if the browser is cleared or the device is lost).</p>
+        <div class="row2">
+          <button class="btn secondary" onclick="App.exportData()">⬇ Export backup</button>
+          <button class="btn secondary" onclick="document.getElementById('importFile').click()">⬆ Import</button>
+        </div>
+        <input type="file" id="importFile" accept="application/json" style="display:none" onchange="App.importData(event)">
+      </div>
+
+      <button class="btn danger" onclick="App.resetAll()">Reset everything</button>
+    </section>
+
+    <!-- ============ STATS DASHBOARD ============ -->
+    <section class="screen" id="screen-stats">
+      <button class="back" onclick="App.show('screen-home');App.renderList();">← Back</button>
+      <h1>Shop stats</h1>
+      <p class="sub">An overview of your loyalty programme.</p>
+      <div class="stat-grid" id="statGrid"></div>
+
+      <div class="card-box">
+        <div class="label">This week</div>
+        <div class="lifetime" style="margin-bottom:0;">
+          <div class="stat"><b id="stWeekStamps">0</b><span>Stamps given</span></div>
+          <div class="stat"><b id="stWeekFree">0</b><span>Free cuts given</span></div>
+          <div class="stat"><b id="stWeekNew">0</b><span>New customers</span></div>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div class="label">Most loyal customers</div>
+        <div id="statTop"></div>
+      </div>
+
+      <div class="card-box">
+        <div class="label">Ready for a free cut</div>
+        <div id="statReady"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Clip Club Loyalty · Data stays on this device · <a href="#" onclick="App.about();return false;">How it works</a></footer>
+</div>
+
+<!-- PIN prompt modal -->
+<div class="overlay" id="pinOverlay">
+  <div class="modal">
+    <div class="pin-title" id="promptTitle">Barber PIN</div>
+    <p class="pin-caption" id="promptCaption">Confirm this action</p>
+    <div class="pin-dots" id="promptDots"></div>
+    <div id="promptKeypad"></div>
+    <div class="pin-msg" id="promptPinMsg"></div>
+    <button class="btn ghost" style="margin-top:12px;" onclick="App.closePrompt()">Cancel</button>
+  </div>
+</div>
+
+<!-- generic modal -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="vendor/qrcode.js"></script>
+<script>
+"use strict";
+const KEY = "clipclub.loyalty.v1";
+const $ = id => document.getElementById(id);
+
+/* ---------- storage ---------- */
+let DB = null;
+function load(){ try{ DB = JSON.parse(localStorage.getItem(KEY)); }catch(e){ DB=null; } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(DB)); }
+
+/* ---------- crypto (PIN hashing) ---------- */
+async function hashPin(pin, salt){
+  const data = new TextEncoder().encode(salt + "::" + pin);
+  if(window.crypto && crypto.subtle){
+    const buf = await crypto.subtle.digest("SHA-256", data);
+    return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+  }
+  // fallback (low-stakes) djb2
+  let h=5381; const s=salt+"::"+pin;
+  for(let i=0;i<s.length;i++){ h=((h<<5)+h+s.charCodeAt(i))>>>0; }
+  return "djb2:"+h.toString(16);
+}
+function randId(){ const a=new Uint8Array(8); crypto.getRandomValues(a); return [...a].map(b=>b.toString(16).padStart(2,"0")).join(""); }
+function randCode(){ // human recovery code
+  const a=new Uint8Array(4); crypto.getRandomValues(a);
+  return [...a].map(b=>b.toString(36).toUpperCase().padStart(2,"0")).join("").slice(0,8);
+}
+
+/* ---------- reusable PIN pad ---------- */
+function makeKeypad(container, onDigit, onDelete){
+  container.innerHTML="";
+  const grid=document.createElement("div"); grid.className="keypad";
+  const keys=["1","2","3","4","5","6","7","8","9","clear","0","del"];
+  keys.forEach(k=>{
+    const b=document.createElement("button"); b.className="key"; b.type="button";
+    if(k==="del"){ b.classList.add("wide"); b.textContent="⌫"; b.onclick=()=>onDelete(false); }
+    else if(k==="clear"){ b.classList.add("wide"); b.textContent="Clear"; b.onclick=()=>onDelete(true); }
+    else { b.textContent=k; b.onclick=()=>onDigit(k); }
+    grid.appendChild(b);
+  });
+  container.appendChild(grid);
+}
+function renderDots(container,len,total){
+  container.innerHTML="";
+  for(let i=0;i<total;i++){ const d=document.createElement("div"); d.className="pin-dot"+(i<len?" filled":""); container.appendChild(d); }
+}
+
+/* ---------- toast ---------- */
+let toastT;
+function toast(msg, good){
+  const t=$("toast"); t.textContent=msg; t.className="toast show"+(good?" good":"");
+  clearTimeout(toastT); toastT=setTimeout(()=>t.className="toast",1800);
+}
+
+/* ---------- scissors icon ---------- */
+const SCISSORS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.12 15.88"/><path d="M14.47 14.48L20 20"/><path d="M8.12 8.12L12 12"/></svg>';
+
+const App = {
+  state:{ current:null, locked:true, autoLockTimer:null },
+
+  /* ===== boot ===== */
+  init(){
+    // Customer view: opened from a shared QR/link (#c=...). Read-only, no shop data needed.
+    const h=location.hash||"";
+    if(h.indexOf("#c=")===0){
+      const data=decodePayload(h.slice(3));
+      if(data){ this.renderCustomerView(data); return; }
+    }
+    load();
+    if(!DB || !DB.shop){ this.show("screen-setup"); this.buildSetupPad(); return; }
+    this.applyBrand();
+    this.state.locked = true;
+    this.showLock();
+    this.armAutoLock();
+    document.addEventListener("click", ()=>this.armAutoLock(), true);
+    document.addEventListener("keydown", ()=>this.armAutoLock(), true);
+  },
+
+  applyBrand(){
+    $("brandName").textContent = DB.shop.name || "Clip Club";
+    $("brandMark").textContent = (DB.shop.name||"C").trim().charAt(0).toUpperCase() || "C";
+  },
+
+  show(id){
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    $(id).classList.add("active");
+    window.scrollTo(0,0);
+  },
+
+  /* ===== SETUP ===== */
+  _setupPin:"",
+  setupNext(){
+    const name=$("setupShop").value.trim();
+    const goal=parseInt($("setupGoal").value,10);
+    if(!name){ toast("Enter a shop name"); return; }
+    if(!goal || goal<2 || goal>50){ toast("Goal must be 2–50"); return; }
+    this._pendingShop={name,goal};
+    $("setup-step1").style.display="none";
+    $("setup-step2").style.display="block";
+  },
+  setupBack(){ $("setup-step2").style.display="none"; $("setup-step1").style.display="block"; this._setupPin=""; this._setupConfirm=null; this.buildSetupPad(); },
+  buildSetupPad(){
+    this._setupPin=""; this._setupConfirm=null;
+    renderDots($("setupDots"),0,4);
+    makeKeypad($("setupKeypad"),
+      d=>{ if(this._setupPin.length<4){ this._setupPin+=d; renderDots($("setupDots"),this._setupPin.length,4); if(this._setupPin.length===4) this.setupPinDone(); } },
+      clear=>{ this._setupPin= clear?"":this._setupPin.slice(0,-1); renderDots($("setupDots"),this._setupPin.length,4); }
+    );
+  },
+  setupPinDone(){
+    if(this._setupConfirm===null){
+      this._setupConfirm=this._setupPin; this._setupPin="";
+      $("setupPinTitle").textContent="Confirm your PIN";
+      $("setupPinMsg").textContent="";
+      setTimeout(()=>renderDots($("setupDots"),0,4),150);
+      return;
+    }
+    if(this._setupPin!==this._setupConfirm){
+      $("setupPinMsg").textContent="PINs didn't match — try again";
+      this._setupPin=""; this._setupConfirm=null;
+      $("setupPinTitle").textContent="Create a 4-digit barber PIN";
+      setTimeout(()=>renderDots($("setupDots"),0,4),150);
+      return;
+    }
+    this.finishSetup(this._setupConfirm);
+  },
+  async finishSetup(pin){
+    const salt=randId();
+    const recovery=randCode();
+    DB={
+      shop:{ name:this._pendingShop.name, goal:this._pendingShop.goal, salt,
+             pinHash:await hashPin(pin,salt), recovery, createdAt:Date.now() },
+      settings:{ perStamp:false, autoLock:true },
+      customers:[]
+    };
+    save(); this.applyBrand();
+    this.state.locked=false; this.setLockPill();
+    // show recovery code
+    this.modal(`<h3>✅ Shop ready</h3>
+      <p>Your barber PIN is set. Write down your <b>recovery code</b> in case you forget it:</p>
+      <div style="background:var(--panel-2);border:1px dashed var(--gold);border-radius:12px;padding:16px;text-align:center;font-size:26px;font-weight:800;letter-spacing:3px;color:var(--gold);margin-bottom:18px;">${recovery}</div>
+      <button class="btn" onclick="App.closeModal();App.show('screen-home');App.renderList();">Start adding customers →</button>`);
+  },
+
+  /* ===== LOCK / UNLOCK ===== */
+  _lockPin:"",
+  showLock(){
+    this.show("screen-lock");
+    this._lockPin="";
+    renderDots($("lockDots"),0,4);
+    $("lockPinMsg").textContent="";
+    makeKeypad($("lockKeypad"),
+      async d=>{ if(this._lockPin.length<4){ this._lockPin+=d; renderDots($("lockDots"),this._lockPin.length,4); if(this._lockPin.length===4) await this.tryUnlock(); } },
+      clear=>{ this._lockPin= clear?"":this._lockPin.slice(0,-1); renderDots($("lockDots"),this._lockPin.length,4); }
+    );
+    this.setLockPill();
+  },
+  async tryUnlock(){
+    const h=await hashPin(this._lockPin, DB.shop.salt);
+    if(h===DB.shop.pinHash){
+      this.state.locked=false; this.setLockPill(); this.armAutoLock();
+      this.show("screen-home"); this.renderList();
+    } else {
+      $("lockPinMsg").textContent="Wrong PIN";
+      this._lockPin=""; setTimeout(()=>renderDots($("lockDots"),0,4),150);
+    }
+  },
+  toggleLock(){
+    if(!DB||!DB.shop) return;
+    if(this.state.locked){ this.showLock(); }
+    else { this.state.locked=true; this.setLockPill(); this.showLock(); }
+  },
+  setLockPill(){
+    const p=$("lockPill");
+    if(this.state.locked){ p.className="lockpill locked"; $("lockIco").textContent="🔒"; $("lockTxt").textContent="Locked"; }
+    else { p.className="lockpill unlocked"; $("lockIco").textContent="🔓"; $("lockTxt").textContent="Barber"; }
+  },
+  armAutoLock(){
+    if(!DB||!DB.shop||this.state.locked) return;
+    if(!DB.settings.autoLock) return;
+    clearTimeout(this.state.autoLockTimer);
+    this.state.autoLockTimer=setTimeout(()=>{
+      this.state.locked=true; this.setLockPill();
+      if($("screen-lock").classList.contains("active")===false){ this.showLock(); }
+      toast("Auto-locked");
+    }, 90000);
+  },
+  forgotPin(){
+    this.modal(`<h3>Reset your PIN</h3>
+      <p>Enter your 8-character recovery code (shown at setup) to choose a new PIN.</p>
+      <input type="text" id="recInput" placeholder="Recovery code" style="text-transform:uppercase;letter-spacing:2px;text-align:center;">
+      <button class="btn" onclick="App.doRecovery()">Continue</button>
+      <button class="btn ghost" style="margin-top:10px;" onclick="App.closeModal()">Cancel</button>`);
+  },
+  doRecovery(){
+    const code=($("recInput").value||"").trim().toUpperCase();
+    if(code!==DB.shop.recovery){ toast("Recovery code incorrect"); return; }
+    this.closeModal();
+    this.promptNewPin("Set a new barber PIN");
+  },
+
+  /* ===== customer list ===== */
+  renderList(){
+    const q=($("search")?$("search").value:"").trim().toLowerCase();
+    const list=$("custList"); list.innerHTML="";
+    let custs=(DB.customers||[]).slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+    if(q) custs=custs.filter(c=> (c.name||"").toLowerCase().includes(q) || (c.phone||"").includes(q));
+    $("homeSub").textContent = DB.customers.length? "Tap a customer to view their card and add a stamp." : "Add your first customer to get started.";
+    if(!custs.length){ list.innerHTML=`<div class="empty">${q?"No matches.":"No customers yet."}</div>`; return; }
+    const goal=DB.shop.goal;
+    custs.forEach(c=>{
+      const claim=c.stamps>=goal-1;
+      const row=document.createElement("div"); row.className="cust-row"; row.onclick=()=>App.openCard(c.id);
+      row.innerHTML=`
+        <div class="avatar">${(c.name||"?").trim().charAt(0).toUpperCase()}</div>
+        <div class="cust-meta">
+          <div class="cust-name">${esc(c.name)}</div>
+          <div class="cust-sub">${c.stamps}/${goal} stamps${c.phone?" · "+esc(c.phone):""}</div>
+          <div class="mini-progress"><span style="width:${Math.min(100,c.stamps/goal*100)}%"></span></div>
+        </div>
+        ${claim?'<div class="badge-free">Free!</div>':''}`;
+      list.appendChild(row);
+    });
+  },
+
+  openNewCustomer(){
+    this.modal(`<h3>New customer</h3>
+      <p>Just a name is enough. Phone is optional (helps you find them later).</p>
+      <span class="field-label">Name</span>
+      <input type="text" id="ncName" placeholder="Customer name" maxlength="40">
+      <span class="field-label">Phone (optional)</span>
+      <input type="tel" id="ncPhone" placeholder="Mobile number" maxlength="20">
+      <button class="btn" onclick="App.createCustomer()">Create card</button>
+      <button class="btn ghost" style="margin-top:10px;" onclick="App.closeModal()">Cancel</button>`);
+    setTimeout(()=>$("ncName")&&$("ncName").focus(),50);
+  },
+  createCustomer(){
+    const name=$("ncName").value.trim();
+    if(!name){ toast("Enter a name"); return; }
+    const c={ id:randId(), name, phone:$("ncPhone").value.trim(), stamps:0,
+      lifetimeStamps:0, rewards:0, history:[], createdAt:Date.now(), updatedAt:Date.now() };
+    DB.customers.push(c); save(); this.closeModal();
+    this.openCard(c.id); toast("Card created", true);
+  },
+
+  /* ===== card view ===== */
+  openCard(id){
+    this.state.current=id;
+    this.show("screen-card");
+    this.renderCard();
+  },
+  cur(){ return DB.customers.find(c=>c.id===this.state.current); },
+  renderCard(){
+    const c=this.cur(); if(!c){ this.show("screen-home"); return; }
+    const goal=DB.shop.goal;
+    const claimable=c.stamps>=goal-1;
+    // visual
+    let stamps="";
+    for(let i=0;i<goal;i++){
+      const isLast=i===goal-1;
+      if(i<c.stamps){
+        stamps+=`<div class="stamp filled${isLast?' free':''}">${SCISSORS}</div>`;
+      } else if(isLast){
+        stamps+=`<div class="stamp free${claimable?' claimable':''}"><span class="freetxt">FREE</span></div>`;
+      } else {
+        stamps+=`<div class="stamp">${SCISSORS}</div>`;
+      }
+    }
+    $("cardVisual").innerHTML=`
+      <div class="sc-top">
+        <div><div class="sc-name">${esc(c.name)}</div>${c.phone?`<div class="sc-phone">${esc(c.phone)}</div>`:''}</div>
+        <div class="sc-count"><b>${c.stamps}</b><span>of ${goal}</span></div>
+      </div>
+      <div class="stamps">${stamps}</div>`;
+
+    // banner
+    $("cardBanner").innerHTML = claimable
+      ? `<div class="freebanner">🎁 This customer's next haircut is FREE — tap “Give free haircut”.</div>`
+      : "";
+
+    // actions
+    if(claimable){
+      $("cardActions").innerHTML=`
+        <button class="btn green" onclick="App.redeem()">🎁 Give free haircut</button>
+        <button class="btn secondary" onclick="App.undo()">Undo last stamp</button>`;
+    } else {
+      $("cardActions").innerHTML=`
+        <button class="btn" onclick="App.addStamp()">✂ Add a stamp</button>
+        ${c.stamps>0?`<button class="btn ghost" onclick="App.undo()">Undo last stamp</button>`:''}`;
+    }
+
+    // lifetime
+    $("cardLifetime").innerHTML=`
+      <div class="stat"><b>${c.lifetimeStamps}</b><span>Cuts stamped</span></div>
+      <div class="stat"><b>${c.rewards}</b><span>Free cuts earned</span></div>`;
+
+    // history
+    const h=$("cardHist");
+    if(!c.history.length){ h.innerHTML=`<div class="empty" style="padding:16px;">No activity yet.</div>`; }
+    else{
+      h.innerHTML=c.history.slice().reverse().slice(0,12).map(ev=>{
+        const map={stamp:["stamp","✂","Stamp added"],redeem:["redeem","🎁","Free haircut redeemed"],undo:["undo","↩","Stamp removed"]};
+        const m=map[ev.t]||["stamp","·",ev.t];
+        return `<div class="hist-item"><div class="hist-ic ${m[0]}">${m[1]}</div><div class="hist-meta">${m[2]}</div><div class="hist-when">${when(ev.at)}</div></div>`;
+      }).join("");
+    }
+  },
+
+  /* ===== the authorised actions ===== */
+  async addStamp(){
+    const c=this.cur(); if(!c) return;
+    const goal=DB.shop.goal;
+    if(c.stamps>=goal-1){ toast("Card full — give the free cut"); return; }
+    const go=()=>{
+      c.stamps++; c.lifetimeStamps++; c.updatedAt=Date.now();
+      c.history.push({t:"stamp",at:Date.now()}); save(); this.renderCard();
+      if(c.stamps>=goal-1){ this.celebrate("🎉","Card complete!",`${esc(c.name)}'s next haircut is FREE.`); }
+      else { toast("Stamp added ✂", true); }
+    };
+    // authorisation
+    if(this.needStampAuth()){ this.requirePin("Authorise stamp", `Add a stamp for ${c.name}?`, go); }
+    else { go(); }
+  },
+  redeem(){
+    const c=this.cur(); if(!c) return;
+    // redeeming a free cut ALWAYS needs the PIN — it's the valuable action
+    this.requirePin("Authorise free haircut", `Confirm ${c.name}'s free haircut and reset the card?`, ()=>{
+      c.stamps=0; c.rewards++; c.updatedAt=Date.now();
+      c.history.push({t:"redeem",at:Date.now()}); save(); this.renderCard();
+      this.celebrate("🎁","Free haircut given!","Card reset — the next 10 starts now.");
+    });
+  },
+  undo(){
+    const c=this.cur(); if(!c||c.stamps<=0) return;
+    const go=()=>{ c.stamps--; if(c.lifetimeStamps>0)c.lifetimeStamps--; c.updatedAt=Date.now();
+      c.history.push({t:"undo",at:Date.now()}); save(); this.renderCard(); toast("Last stamp removed"); };
+    if(this.needStampAuth()){ this.requirePin("Authorise undo","Remove the last stamp?",go); }
+    else { go(); }
+  },
+  needStampAuth(){ return DB.settings.perStamp || this.state.locked; },
+
+  deleteCustomer(){
+    const c=this.cur(); if(!c) return;
+    this.requirePin("Authorise removal",`Permanently remove ${c.name} and their card?`, ()=>{
+      DB.customers=DB.customers.filter(x=>x.id!==c.id); save();
+      this.show("screen-home"); this.renderList(); toast("Customer removed");
+    });
+  },
+
+  /* ===== PIN prompt ===== */
+  _promptPin:"", _promptCb:null,
+  requirePin(title, caption, cb){
+    // if unlocked and per-stamp is off, some callers still force PIN (redeem/delete) — handle by always prompting here
+    this._promptCb=cb; this._promptPin="";
+    $("promptTitle").textContent=title; $("promptCaption").textContent=caption; $("promptPinMsg").textContent="";
+    renderDots($("promptDots"),0,4);
+    makeKeypad($("promptKeypad"),
+      async d=>{ if(this._promptPin.length<4){ this._promptPin+=d; renderDots($("promptDots"),this._promptPin.length,4); if(this._promptPin.length===4) await this.checkPrompt(); } },
+      clear=>{ this._promptPin= clear?"":this._promptPin.slice(0,-1); renderDots($("promptDots"),this._promptPin.length,4); }
+    );
+    $("pinOverlay").classList.add("show");
+  },
+  async checkPrompt(){
+    const h=await hashPin(this._promptPin, DB.shop.salt);
+    if(h===DB.shop.pinHash){
+      const cb=this._promptCb; this.closePrompt();
+      this.state.locked=false; this.setLockPill(); this.armAutoLock();
+      cb&&cb();
+    } else {
+      $("promptPinMsg").textContent="Wrong PIN";
+      this._promptPin=""; setTimeout(()=>renderDots($("promptDots"),0,4),150);
+    }
+  },
+  closePrompt(){ $("pinOverlay").classList.remove("show"); this._promptCb=null; this._promptPin=""; },
+
+  /* ===== celebrate ===== */
+  celebrate(big,title,text){
+    this.modal(`<div class="celebrate"><div class="big">${big}</div><h3>${title}</h3><p>${text}</p><button class="btn" onclick="App.closeModal()">Done</button></div>`);
+  },
+
+  /* ===== settings ===== */
+  renderSettings(){
+    $("setShopName").textContent=DB.shop.name;
+    $("setGoal").textContent=DB.shop.goal+" stamps";
+    $("setPerStamp").checked=!!DB.settings.perStamp;
+    $("setAutoLock").checked=DB.settings.autoLock!==false;
+  },
+  togglePerStamp(v){ DB.settings.perStamp=v; save(); toast(v?"PIN required per stamp":"Unlock-once mode"); },
+  toggleAutoLock(v){ DB.settings.autoLock=v; save(); if(v)this.armAutoLock(); },
+  editShopName(){
+    this.modal(`<h3>Shop name</h3><input type="text" id="esName" maxlength="28" value="${esc(DB.shop.name)}">
+      <button class="btn" onclick="App.saveShopName()">Save</button>
+      <button class="btn ghost" style="margin-top:10px;" onclick="App.closeModal()">Cancel</button>`);
+  },
+  saveShopName(){ const v=$("esName").value.trim(); if(!v){toast("Enter a name");return;} DB.shop.name=v; save(); this.applyBrand(); this.renderSettings(); this.closeModal(); },
+  editGoal(){
+    this.modal(`<h3>Stamps per free cut</h3><p>Changing this keeps existing cards; it just changes the target.</p>
+      <input type="tel" id="egGoal" inputmode="numeric" maxlength="2" value="${DB.shop.goal}">
+      <button class="btn" onclick="App.saveGoal()">Save</button>
+      <button class="btn ghost" style="margin-top:10px;" onclick="App.closeModal()">Cancel</button>`);
+  },
+  saveGoal(){ const g=parseInt($("egGoal").value,10); if(!g||g<2||g>50){toast("Must be 2–50");return;} DB.shop.goal=g; save(); this.renderSettings(); this.closeModal(); toast("Updated",true); },
+
+  changePin(){ this.requirePin("Enter current PIN","Verify it's you", ()=>this.promptNewPin("Set a new barber PIN")); },
+  _newPin:"", _newConfirm:null,
+  promptNewPin(title){
+    this._newPin=""; this._newConfirm=null;
+    this.modal(`<div class="pin-title" id="npTitle">${title}</div><p class="pin-caption">Choose 4 digits</p>
+      <div class="pin-dots" id="npDots"></div><div id="npPad"></div><div class="pin-msg" id="npMsg"></div>
+      <button class="btn ghost" style="margin-top:12px;" onclick="App.closeModal()">Cancel</button>`);
+    renderDots($("npDots"),0,4);
+    makeKeypad($("npPad"),
+      d=>{ if(this._newPin.length<4){ this._newPin+=d; renderDots($("npDots"),this._newPin.length,4); if(this._newPin.length===4) this.newPinStep(); } },
+      clear=>{ this._newPin=clear?"":this._newPin.slice(0,-1); renderDots($("npDots"),this._newPin.length,4); }
+    );
+  },
+  async newPinStep(){
+    if(this._newConfirm===null){
+      this._newConfirm=this._newPin; this._newPin="";
+      $("npTitle").textContent="Confirm new PIN"; setTimeout(()=>renderDots($("npDots"),0,4),150); return;
+    }
+    if(this._newPin!==this._newConfirm){
+      $("npMsg").textContent="Didn't match — start again"; this._newPin=""; this._newConfirm=null;
+      $("npTitle").textContent="Set a new barber PIN"; setTimeout(()=>renderDots($("npDots"),0,4),150); return;
+    }
+    DB.shop.pinHash=await hashPin(this._newConfirm, DB.shop.salt); save();
+    this.closeModal(); toast("PIN updated",true);
+  },
+
+  /* ===== data backup ===== */
+  exportData(){
+    const blob=new Blob([JSON.stringify(DB,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob); const a=document.createElement("a");
+    a.href=url; a.download="clipclub-loyalty-backup.json"; a.click();
+    URL.revokeObjectURL(url); toast("Backup downloaded",true);
+  },
+  importData(e){
+    const f=e.target.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{ try{
+      const d=JSON.parse(r.result);
+      if(!d.shop||!d.customers) throw 0;
+      this.modal(`<h3>Import backup?</h3><p>This replaces all current data on this device with the backup (${d.customers.length} customers). Continue?</p>
+        <button class="btn danger" onclick="App.confirmImport()">Yes, replace</button>
+        <button class="btn ghost" style="margin-top:10px;" onclick="App.closeModal()">Cancel</button>`);
+      this._pendingImport=d;
+    }catch(err){ toast("Invalid backup file"); } };
+    r.readAsText(f); e.target.value="";
+  },
+  confirmImport(){ DB=this._pendingImport; save(); this.applyBrand(); this.closeModal(); this.state.locked=true; this.showLock(); toast("Backup restored",true); },
+
+  resetAll(){
+    this.requirePin("Confirm reset","This erases the shop and ALL cards on this device.", ()=>{
+      this.modal(`<h3>Are you absolutely sure?</h3><p>Every card will be permanently deleted. Export a backup first if unsure.</p>
+        <button class="btn danger" onclick="localStorage.removeItem('${KEY}');location.reload();">Delete everything</button>
+        <button class="btn ghost" style="margin-top:10px;" onclick="App.closeModal()">Cancel</button>`);
+    });
+  },
+
+  about(){
+    this.modal(`<h3>How it works</h3>
+      <p style="margin-bottom:12px;">Every haircut earns a stamp. Collect ${DB?DB.shop.goal:10} and the last cut is <b>free</b> — then the card resets.</p>
+      <p style="margin-bottom:12px;"><b>Only the barber can stamp.</b> Adding stamps and giving free cuts is protected by your PIN, so customers can't stamp their own cards.</p>
+      <p style="margin-bottom:12px;">Keep this on your shop device. Lock it (🔒 top-right) whenever you hand it over. Back up your data regularly in Settings.</p>
+      <button class="btn" onclick="App.closeModal()">Got it</button>`);
+  },
+
+  /* ===== customer read-only view ===== */
+  renderCustomerView(d){
+    // d = { sh:shopName, n:name, s:stamps, g:goal, r:rewards, t:timestamp }
+    const goal=d.g||10, stamps=Math.max(0,Math.min(d.s||0,goal));
+    const claimable=stamps>=goal-1;
+    document.querySelector("header").style.display="none";
+    $("cvShop").textContent=d.sh||"Loyalty Card";
+    $("cvName").textContent=d.n||"Your card";
+    let cells="";
+    for(let i=0;i<goal;i++){
+      const isLast=i===goal-1;
+      if(i<stamps) cells+=`<div class="stamp filled${isLast?' free':''}">${SCISSORS}</div>`;
+      else if(isLast) cells+=`<div class="stamp free${claimable?' claimable':''}"><span class="freetxt">FREE</span></div>`;
+      else cells+=`<div class="stamp">${SCISSORS}</div>`;
+    }
+    $("cvCard").innerHTML=`
+      <div class="sc-top">
+        <div><div class="sc-name">${esc(d.n||"")}</div></div>
+        <div class="sc-count"><b>${stamps}</b><span>of ${goal}</span></div>
+      </div>
+      <div class="stamps">${cells}</div>`;
+    $("cvBanner").innerHTML=claimable
+      ? `<div class="freebanner" style="justify-content:center;">🎁 Your next haircut is FREE!</div>`
+      : `<div class="hint" style="text-align:center;margin-bottom:12px;">${goal-stamps} more to a free haircut.</div>`;
+    $("cvAsOf").textContent = d.t ? "As shown on "+when(d.t)+" — visit the shop for the latest." : "";
+    this.show("screen-customer");
+  },
+
+  /* ===== share a customer's card as QR + link ===== */
+  shareCard(){
+    const c=this.cur(); if(!c) return;
+    const payload={ sh:DB.shop.name, n:c.name, s:c.stamps, g:DB.shop.goal, r:c.rewards, t:Date.now() };
+    const base=location.origin+location.pathname;
+    const url=base+"#c="+encodePayload(payload);
+    let qrHtml="";
+    try{
+      const qr=qrcode(0,"M"); qr.addData(url); qr.make();
+      qrHtml=qr.createSvgTag({cellSize:5,margin:2,scalable:true});
+    }catch(e){ qrHtml=`<p style="color:#000;padding:20px;">Couldn't render QR — use the link below.</p>`; }
+    this.modal(`<h3>${esc(c.name)}'s card</h3>
+      <p>Ask the customer to scan this with their phone camera — it opens their card so they can track progress.</p>
+      <div class="qr-wrap">${qrHtml}</div>
+      <div class="link-box"><input type="text" id="shareUrl" readonly value="${esc(url)}"><button class="btn secondary" style="width:auto;padding:0 16px;" onclick="App.copyShare()">Copy</button></div>
+      <p class="hint">It's a snapshot of today's stamps. Only you (with your PIN) can add stamps.</p>
+      <button class="btn" style="margin-top:14px;" onclick="App.closeModal()">Done</button>`);
+  },
+  copyShare(){
+    const el=$("shareUrl"); el.select();
+    const done=()=>toast("Link copied",true);
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(el.value).then(done).catch(()=>{document.execCommand("copy");done();}); }
+    else { document.execCommand("copy"); done(); }
+  },
+
+  /* ===== stats dashboard ===== */
+  openStats(){ this.show("screen-stats"); this.renderStats(); },
+  renderStats(){
+    const cs=DB.customers||[], goal=DB.shop.goal;
+    const weekAgo=Date.now()-7*24*3600*1000;
+    let activeStamps=0, cutsStamped=0, freeGiven=0, ready=0, weekStamps=0, weekFree=0, weekNew=0;
+    cs.forEach(c=>{
+      activeStamps+=c.stamps; cutsStamped+=c.lifetimeStamps; freeGiven+=c.rewards;
+      if(c.stamps>=goal-1) ready++;
+      if(c.createdAt>=weekAgo) weekNew++;
+      (c.history||[]).forEach(ev=>{ if(ev.at>=weekAgo){ if(ev.t==="stamp")weekStamps++; else if(ev.t==="redeem")weekFree++; } });
+    });
+    $("statGrid").innerHTML=`
+      <div class="stat"><b>${cs.length}</b><span>Customers</span></div>
+      <div class="stat"><b>${cutsStamped}</b><span>Cuts stamped</span></div>
+      <div class="stat"><b>${freeGiven}</b><span>Free cuts given</span></div>
+      <div class="stat"><b>${ready}</b><span>Ready for free cut</span></div>`;
+    $("stWeekStamps").textContent=weekStamps;
+    $("stWeekFree").textContent=weekFree;
+    $("stWeekNew").textContent=weekNew;
+
+    const top=cs.slice().filter(c=>c.lifetimeStamps>0).sort((a,b)=>b.lifetimeStamps-a.lifetimeStamps).slice(0,5);
+    $("statTop").innerHTML = top.length
+      ? top.map((c,i)=>`<div class="rank-row"><span class="rank-n">${i+1}</span><span class="rank-name">${esc(c.name)}</span><span class="rank-val">${c.lifetimeStamps} cuts</span></div>`).join("")
+      : `<div class="empty" style="padding:14px;">No activity yet.</div>`;
+
+    const readyList=cs.filter(c=>c.stamps>=goal-1).sort((a,b)=>b.stamps-a.stamps);
+    $("statReady").innerHTML = readyList.length
+      ? readyList.map(c=>`<div class="rank-row" onclick="App.openCard('${c.id}')" style="cursor:pointer;"><span class="rank-name">${esc(c.name)}</span><span class="badge-free">Free!</span></div>`).join("")
+      : `<div class="empty" style="padding:14px;">Nobody's card is full yet.</div>`;
+  },
+
+  /* ===== generic modal ===== */
+  modal(html){ $("modalBody").innerHTML=html; $("modalOverlay").classList.add("show"); },
+  closeModal(){ $("modalOverlay").classList.remove("show"); }
+};
+
+/* helpers */
+function esc(s){ return (s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function encodePayload(obj){
+  const json=JSON.stringify(obj);
+  // UTF-8 safe base64url
+  const b64=btoa(unescape(encodeURIComponent(json)));
+  return b64.replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function decodePayload(str){
+  try{
+    let b64=str.replace(/-/g,"+").replace(/_/g,"/");
+    while(b64.length%4) b64+="=";
+    const json=decodeURIComponent(escape(atob(b64)));
+    return JSON.parse(json);
+  }catch(e){ return null; }
+}
+function when(ts){
+  const d=new Date(ts), now=new Date();
+  const sameDay=d.toDateString()===now.toDateString();
+  if(sameDay) return d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+  return d.toLocaleDateString([], {day:"numeric",month:"short"});
+}
+
+App.init();
+</script>
+</body>
+</html>
