@@ -201,6 +201,28 @@ footer{padding:18px;text-align:center;color:var(--muted);font-size:12px;border-t
 footer a{color:var(--gold);text-decoration:none;}
 .row2{display:flex;gap:10px;}
 .row2 .btn{margin-top:0;}
+
+/* customer read-only view */
+.cust-hero{padding-top:10px;text-align:center;}
+.cust-hero h1{font-size:26px;}
+.cust-shop{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:10px;}
+.cust-hero .stampcard{text-align:left;}
+
+/* stats grid */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.stat-grid .stat{padding:16px 12px;}
+.stat-grid .stat b{font-size:26px;color:var(--gold);}
+.rank-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;}
+.rank-row:last-child{border-bottom:none;}
+.rank-n{width:24px;color:var(--muted);font-weight:700;}
+.rank-name{flex:1;font-weight:600;}
+.rank-val{color:var(--gold);font-weight:700;}
+
+/* QR */
+.qr-wrap{background:#fff;border-radius:14px;padding:14px;display:flex;justify-content:center;margin-bottom:14px;}
+.qr-wrap svg{width:100%;height:auto;max-width:260px;display:block;}
+.link-box{display:flex;gap:8px;margin-bottom:6px;}
+.link-box input{margin-bottom:0;font-size:13px;}
 </style>
 </head>
 <body>
@@ -212,6 +234,18 @@ footer a{color:var(--gold);text-decoration:none;}
   </header>
 
   <main>
+    <!-- ============ CUSTOMER VIEW (read-only, opened from QR/link) ============ -->
+    <section class="screen" id="screen-customer">
+      <div class="cust-hero">
+        <div class="cust-shop" id="cvShop">Loyalty Card</div>
+        <h1 id="cvName">—</h1>
+        <div class="stampcard" id="cvCard" style="margin-top:16px;"></div>
+        <div id="cvBanner"></div>
+        <p class="hint" style="text-align:center;">Show this screen to your barber to collect your next stamp.</p>
+        <p class="hint" style="text-align:center;opacity:.75;" id="cvAsOf"></p>
+      </div>
+    </section>
+
     <!-- ============ SETUP ============ -->
     <section class="screen" id="screen-setup">
       <h1>Set up your shop</h1>
@@ -258,7 +292,10 @@ footer a{color:var(--gold);text-decoration:none;}
       </div>
       <div id="custList"></div>
       <button class="btn" style="margin-top:8px;" onclick="App.openNewCustomer()">+ New customer</button>
-      <button class="btn ghost" style="margin-top:10px;" onclick="App.show('screen-settings');App.renderSettings();">Settings &amp; backup</button>
+      <div class="row2" style="margin-top:10px;">
+        <button class="btn ghost" onclick="App.openStats()">📊 Shop stats</button>
+        <button class="btn ghost" onclick="App.show('screen-settings');App.renderSettings();">⚙ Settings</button>
+      </div>
     </section>
 
     <!-- ============ CARD ============ -->
@@ -267,7 +304,8 @@ footer a{color:var(--gold);text-decoration:none;}
       <div class="stampcard" id="cardVisual"></div>
       <div id="cardBanner"></div>
       <div id="cardActions"></div>
-      <div class="lifetime" id="cardLifetime"></div>
+      <button class="btn secondary" style="margin-top:10px;" onclick="App.shareCard()">📱 Show customer their card (QR)</button>
+      <div class="lifetime" id="cardLifetime" style="margin-top:16px;"></div>
       <div class="card-box">
         <div class="label">History</div>
         <div class="hist" id="cardHist"></div>
@@ -312,6 +350,33 @@ footer a{color:var(--gold);text-decoration:none;}
 
       <button class="btn danger" onclick="App.resetAll()">Reset everything</button>
     </section>
+
+    <!-- ============ STATS DASHBOARD ============ -->
+    <section class="screen" id="screen-stats">
+      <button class="back" onclick="App.show('screen-home');App.renderList();">← Back</button>
+      <h1>Shop stats</h1>
+      <p class="sub">An overview of your loyalty programme.</p>
+      <div class="stat-grid" id="statGrid"></div>
+
+      <div class="card-box">
+        <div class="label">This week</div>
+        <div class="lifetime" style="margin-bottom:0;">
+          <div class="stat"><b id="stWeekStamps">0</b><span>Stamps given</span></div>
+          <div class="stat"><b id="stWeekFree">0</b><span>Free cuts given</span></div>
+          <div class="stat"><b id="stWeekNew">0</b><span>New customers</span></div>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div class="label">Most loyal customers</div>
+        <div id="statTop"></div>
+      </div>
+
+      <div class="card-box">
+        <div class="label">Ready for a free cut</div>
+        <div id="statReady"></div>
+      </div>
+    </section>
   </main>
 
   <footer>Clip Club Loyalty · Data stays on this device · <a href="#" onclick="App.about();return false;">How it works</a></footer>
@@ -336,6 +401,7 @@ footer a{color:var(--gold);text-decoration:none;}
 
 <div class="toast" id="toast"></div>
 
+<script src="vendor/qrcode.js"></script>
 <script>
 "use strict";
 const KEY = "clipclub.loyalty.v1";
@@ -398,6 +464,12 @@ const App = {
 
   /* ===== boot ===== */
   init(){
+    // Customer view: opened from a shared QR/link (#c=...). Read-only, no shop data needed.
+    const h=location.hash||"";
+    if(h.indexOf("#c=")===0){
+      const data=decodePayload(h.slice(3));
+      if(data){ this.renderCustomerView(data); return; }
+    }
     load();
     if(!DB || !DB.shop){ this.show("screen-setup"); this.buildSetupPad(); return; }
     this.applyBrand();
@@ -797,6 +869,91 @@ const App = {
       <button class="btn" onclick="App.closeModal()">Got it</button>`);
   },
 
+  /* ===== customer read-only view ===== */
+  renderCustomerView(d){
+    // d = { sh:shopName, n:name, s:stamps, g:goal, r:rewards, t:timestamp }
+    const goal=d.g||10, stamps=Math.max(0,Math.min(d.s||0,goal));
+    const claimable=stamps>=goal-1;
+    document.querySelector("header").style.display="none";
+    $("cvShop").textContent=d.sh||"Loyalty Card";
+    $("cvName").textContent=d.n||"Your card";
+    let cells="";
+    for(let i=0;i<goal;i++){
+      const isLast=i===goal-1;
+      if(i<stamps) cells+=`<div class="stamp filled${isLast?' free':''}">${SCISSORS}</div>`;
+      else if(isLast) cells+=`<div class="stamp free${claimable?' claimable':''}"><span class="freetxt">FREE</span></div>`;
+      else cells+=`<div class="stamp">${SCISSORS}</div>`;
+    }
+    $("cvCard").innerHTML=`
+      <div class="sc-top">
+        <div><div class="sc-name">${esc(d.n||"")}</div></div>
+        <div class="sc-count"><b>${stamps}</b><span>of ${goal}</span></div>
+      </div>
+      <div class="stamps">${cells}</div>`;
+    $("cvBanner").innerHTML=claimable
+      ? `<div class="freebanner" style="justify-content:center;">🎁 Your next haircut is FREE!</div>`
+      : `<div class="hint" style="text-align:center;margin-bottom:12px;">${goal-stamps} more to a free haircut.</div>`;
+    $("cvAsOf").textContent = d.t ? "As shown on "+when(d.t)+" — visit the shop for the latest." : "";
+    this.show("screen-customer");
+  },
+
+  /* ===== share a customer's card as QR + link ===== */
+  shareCard(){
+    const c=this.cur(); if(!c) return;
+    const payload={ sh:DB.shop.name, n:c.name, s:c.stamps, g:DB.shop.goal, r:c.rewards, t:Date.now() };
+    const base=location.origin+location.pathname;
+    const url=base+"#c="+encodePayload(payload);
+    let qrHtml="";
+    try{
+      const qr=qrcode(0,"M"); qr.addData(url); qr.make();
+      qrHtml=qr.createSvgTag({cellSize:5,margin:2,scalable:true});
+    }catch(e){ qrHtml=`<p style="color:#000;padding:20px;">Couldn't render QR — use the link below.</p>`; }
+    this.modal(`<h3>${esc(c.name)}'s card</h3>
+      <p>Ask the customer to scan this with their phone camera — it opens their card so they can track progress.</p>
+      <div class="qr-wrap">${qrHtml}</div>
+      <div class="link-box"><input type="text" id="shareUrl" readonly value="${esc(url)}"><button class="btn secondary" style="width:auto;padding:0 16px;" onclick="App.copyShare()">Copy</button></div>
+      <p class="hint">It's a snapshot of today's stamps. Only you (with your PIN) can add stamps.</p>
+      <button class="btn" style="margin-top:14px;" onclick="App.closeModal()">Done</button>`);
+  },
+  copyShare(){
+    const el=$("shareUrl"); el.select();
+    const done=()=>toast("Link copied",true);
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(el.value).then(done).catch(()=>{document.execCommand("copy");done();}); }
+    else { document.execCommand("copy"); done(); }
+  },
+
+  /* ===== stats dashboard ===== */
+  openStats(){ this.show("screen-stats"); this.renderStats(); },
+  renderStats(){
+    const cs=DB.customers||[], goal=DB.shop.goal;
+    const weekAgo=Date.now()-7*24*3600*1000;
+    let activeStamps=0, cutsStamped=0, freeGiven=0, ready=0, weekStamps=0, weekFree=0, weekNew=0;
+    cs.forEach(c=>{
+      activeStamps+=c.stamps; cutsStamped+=c.lifetimeStamps; freeGiven+=c.rewards;
+      if(c.stamps>=goal-1) ready++;
+      if(c.createdAt>=weekAgo) weekNew++;
+      (c.history||[]).forEach(ev=>{ if(ev.at>=weekAgo){ if(ev.t==="stamp")weekStamps++; else if(ev.t==="redeem")weekFree++; } });
+    });
+    $("statGrid").innerHTML=`
+      <div class="stat"><b>${cs.length}</b><span>Customers</span></div>
+      <div class="stat"><b>${cutsStamped}</b><span>Cuts stamped</span></div>
+      <div class="stat"><b>${freeGiven}</b><span>Free cuts given</span></div>
+      <div class="stat"><b>${ready}</b><span>Ready for free cut</span></div>`;
+    $("stWeekStamps").textContent=weekStamps;
+    $("stWeekFree").textContent=weekFree;
+    $("stWeekNew").textContent=weekNew;
+
+    const top=cs.slice().filter(c=>c.lifetimeStamps>0).sort((a,b)=>b.lifetimeStamps-a.lifetimeStamps).slice(0,5);
+    $("statTop").innerHTML = top.length
+      ? top.map((c,i)=>`<div class="rank-row"><span class="rank-n">${i+1}</span><span class="rank-name">${esc(c.name)}</span><span class="rank-val">${c.lifetimeStamps} cuts</span></div>`).join("")
+      : `<div class="empty" style="padding:14px;">No activity yet.</div>`;
+
+    const readyList=cs.filter(c=>c.stamps>=goal-1).sort((a,b)=>b.stamps-a.stamps);
+    $("statReady").innerHTML = readyList.length
+      ? readyList.map(c=>`<div class="rank-row" onclick="App.openCard('${c.id}')" style="cursor:pointer;"><span class="rank-name">${esc(c.name)}</span><span class="badge-free">Free!</span></div>`).join("")
+      : `<div class="empty" style="padding:14px;">Nobody's card is full yet.</div>`;
+  },
+
   /* ===== generic modal ===== */
   modal(html){ $("modalBody").innerHTML=html; $("modalOverlay").classList.add("show"); },
   closeModal(){ $("modalOverlay").classList.remove("show"); }
@@ -804,6 +961,20 @@ const App = {
 
 /* helpers */
 function esc(s){ return (s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function encodePayload(obj){
+  const json=JSON.stringify(obj);
+  // UTF-8 safe base64url
+  const b64=btoa(unescape(encodeURIComponent(json)));
+  return b64.replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function decodePayload(str){
+  try{
+    let b64=str.replace(/-/g,"+").replace(/_/g,"/");
+    while(b64.length%4) b64+="=";
+    const json=decodeURIComponent(escape(atob(b64)));
+    return JSON.parse(json);
+  }catch(e){ return null; }
+}
 function when(ts){
   const d=new Date(ts), now=new Date();
   const sameDay=d.toDateString()===now.toDateString();

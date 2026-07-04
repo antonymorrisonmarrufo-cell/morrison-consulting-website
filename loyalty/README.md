@@ -4,9 +4,20 @@ A dead-simple digital loyalty card for a barber shop. Collect a stamp per haircu
 **every 10th cut is free.** Stamps can only be added by the barber (PIN-protected),
 so customers can't stamp their own cards.
 
-- **One file, no backend, no accounts, works offline.** Open `loyalty/index.html`.
+- **No backend, no accounts, works offline.** Open `loyalty/index.html`.
 - Data is stored locally on the device (browser `localStorage`), with export/import backup.
 - Mobile-first — designed for a phone or tablet at the counter.
+- **Customer side:** each card has a **QR code / link** the customer scans to see their
+  own card on their phone (read-only — only the barber can add stamps).
+- **Owner dashboard:** shop stats — customers, cuts stamped, free cuts given, this week's
+  activity, most-loyal customers, and who's due a free cut.
+
+## Files
+```
+loyalty/index.html      the app (HTML + CSS + vanilla JS)
+loyalty/vendor/qrcode.js  QR generator, vendored from npm 'qrcode-generator' (Kazuhiko Arase, MIT)
+loyalty/README.md       this file
+```
 
 ---
 
@@ -48,9 +59,14 @@ Browser localStorage key: "clipclub.loyalty.v1"
 - **Backup:** Settings → Export downloads a JSON file; Import restores it (e.g. new device,
   or after clearing the browser).
 
+- **Customer view (read-only):** the QR/link encodes a snapshot of one card as base64url
+  JSON in the URL hash (`#c=...`). Opening it renders a customer-only screen and never
+  touches the barber's stored data — so it works on a phone that has never seen the app.
+
 ### Screens / states
-`Setup → Lock ↔ Home (customer list) → Card → Settings`, plus a PIN-prompt modal for
-authorising sensitive actions.
+`Setup → Lock ↔ Home (customer list) → Card → Settings / Stats`, plus a read-only
+**Customer view** (reached via a shared QR/link) and a PIN-prompt modal for authorising
+sensitive actions.
 
 ---
 
@@ -75,6 +91,20 @@ authorising sensitive actions.
 **New customer**
 - **+ New customer** → name (phone optional) → card created at `0 / 10`.
 
+**Customer sees their own card (on their phone)**
+1. On the customer's card, barber taps **📱 Show customer their card (QR)**.
+2. A QR code + link appears. The customer scans it with their phone camera.
+3. Their phone opens a **read-only** card view (their stamps, progress, "next cut FREE"
+   banner). No PIN, no barber controls, no access to any other customer's data.
+4. It's a **snapshot** of that moment (there's no server) — the customer revisits the shop
+   for the latest, and only the barber's PIN can add stamps. The card data is encoded in the
+   link itself, so nothing is stored on the customer's phone.
+
+**Owner checks stats**
+- Home → **📊 Shop stats**: totals (customers, cuts stamped, free cuts given, cards ready),
+  this week's activity (stamps / free cuts / new customers), the most-loyal customers, and a
+  tap-through list of everyone due a free cut.
+
 **Everyday safety**
 - Tap the **🔒 top-right** to lock whenever the device leaves the barber's hands.
 - Turn on **Require PIN for every stamp** if the device is ever shared with customers.
@@ -97,6 +127,7 @@ It's a static file. Host it anywhere (e.g. GitHub Pages / the existing site) and
 `/loyalty/`. On a phone, "Add to Home Screen" makes it feel like an app.
 
 ## Possible next steps (if a backend is ever wanted)
-- Model C: customer QR codes + a small server so cards sync across devices and staff.
+- Model C: a small server so the customer QR view is **live** (syncs across devices/staff)
+  rather than a snapshot, and the barber can scan a customer's QR to pull up their card.
 - SMS/email when a free cut is earned.
-- Multi-staff PINs and an owner dashboard with stats.
+- Multiple staff PINs, logging which barber authorised each stamp.
