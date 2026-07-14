@@ -3,7 +3,7 @@
 **A copy of the delivery process for the AI-driven application built to review council contact (calls, web and email), surface failure demand, and design out the causes.**
 
 Morrison Consulting / Marrufo Consultancy Ltd — Tony Morrison
-Reference build: London Borough contact centre transformation (270,000+ calls per year → 38% call volume reduction in 5 months, 102,600 unnecessary calls eliminated per year).
+Reference build: London Borough of Waltham Forest contact centre transformation (280,000 calls per year → 36% call volume reduction, 100,000+ unnecessary calls eliminated per year). Figures confirmed against the *Resident Experience, Digital and Technology Update* — Scrutiny Committee, 24 March 2026.
 
 ---
 
@@ -86,7 +86,7 @@ The delivery is made of a small number of reusable **products** that each have c
 
 - **Inputs:** contact-centre MI (volumes, answer rates, wait times, AHT, cost to serve), organisation chart, service catalogue, existing channel strategy, political/leadership priorities.
 - **Activities:** confirm scope and channels; secure sponsor and information-governance sign-off; **complete the DPIA and agree the anonymisation approach now, before any bulk pull**; define the baseline and the definition of "failure demand" with operational leaders; agree success measures; **pull the already-available web analytics (GA4, site search) as an early hypothesis-former.**
-- **Products/Outputs:** agreed scope & mandate; **baseline pack** (e.g. 270,000 calls/yr, 52% answer rate); measurement plan; data-access approvals; **completed DPIA and anonymisation design (P2)**; first web-demand hypotheses.
+- **Products/Outputs:** agreed scope & mandate; **baseline pack** (e.g. 280,000 calls/yr; answer rate 54.4% at its worst point); measurement plan; data-access approvals; **completed DPIA and anonymisation design (P2)**; first web-demand hypotheses.
 
 ### Stage 1 — Data Extraction & Ingestion
 **Aim:** get a representative, defensible sample of real contact off the operational systems and into a safe analysis environment — safely.
@@ -149,7 +149,7 @@ The delivery is made of a small number of reusable **products** that each have c
 
 - **Inputs:** delivered interventions (Stage 6); benefits framework (P7); fresh contact data.
 - **Activities:** measure against baseline; QA classification accuracy and service quality; check demand hasn't simply moved channel; **re-run the pipeline (Stages 1–4) on new contact** to re-baseline and refresh the backlog.
-- **Products/Outputs:** benefits report; QA findings; refreshed backlog; sustained reduction (reference build: **38% call reduction in 5 months, answer rates 52% → 82%, 39% contact-centre FTE reduction, £938k benefits delivered**).
+- **Products/Outputs:** benefits report; QA findings; refreshed backlog; sustained reduction (reference build, per the March 2026 scrutiny report: **36% call reduction — 1,242 to 790 calls/day, ~100,000 fewer calls a year; answer rates 54.4% → 85.5%; average wait 19m45s → 6m26s; advisors 33 → 21 (−36%); £914k recurring annual benefits against £3.109m invested, break-even 2028/29**).
 
 ---
 
@@ -171,7 +171,7 @@ Call transcripts are rich, but on their own they measure only the demand that **
 
 | Blind spot | Why it hides failure demand |
 |---|---|
-| **Survivorship / unanswered contact** | Transcripts capture *answered* calls only. At a 52% answer rate, ~48% of callers never connected — abandoned calls, repeat dialling and callback failures are invisible, yet often represent the *most* failed residents. |
+| **Survivorship / unanswered contact** | Transcripts capture *answered* calls only. At the worst point only 54.4% of calls were answered — nearly half of callers never connected — abandoned calls, repeat dialling and callback failures are invisible, yet often represent the *most* failed residents. |
 | **Deflection-failure demand** | Residents who tried self-service, failed, then called. The call is logged; the failed online journey that caused it is not. |
 | **Silent unmet demand** | Residents who failed online and gave up, or went to a councillor/MP instead. Appears in no contact log. |
 | **Self-selection** | Digitally excluded residents are over-represented in calls; digitally confident residents under-represented. |
