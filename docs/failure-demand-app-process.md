@@ -76,26 +76,38 @@ The delivery is made of a small number of reusable **products** that each have c
 
 ## 5. End-to-End Process — Stage by Stage
 
+> **Sequencing principles (why the order is what it is).** Three deliberate refinements keep the process efficient and low-risk:
+> 1. **Governance before bulk extraction.** The DPIA and anonymisation approach are locked *before* the full data pull, and data is **anonymised on ingest** — raw PII never lands in the analysis environment. Sequencing governance after extraction (a common mistake) creates both a compliance exposure and re-work if redaction rules change what you needed to keep.
+> 2. **A calibration pilot before full scale.** A small sample runs end-to-end first to prove the taxonomy and model accuracy, so the expensive full run isn't classified against a framework you then have to revise.
+> 3. **Cheapest signal first.** Web analytics usually already exists and costs almost nothing — it is pulled up front to *shape* where the more expensive call analysis looks, rather than being processed only in parallel.
+
 ### Stage 0 — Mobilisation & Discovery
 **Aim:** agree the problem, the mandate and the measurement baseline before touching data.
 
 - **Inputs:** contact-centre MI (volumes, answer rates, wait times, AHT, cost to serve), organisation chart, service catalogue, existing channel strategy, political/leadership priorities.
-- **Activities:** confirm scope and channels; secure sponsor and information-governance sign-off; define the baseline and the definition of "failure demand" with operational leaders; agree success measures.
-- **Products/Outputs:** agreed scope & mandate; **baseline pack** (e.g. 270,000 calls/yr, 52% answer rate); measurement plan; data-access approvals; DPIA initiated (P2).
+- **Activities:** confirm scope and channels; secure sponsor and information-governance sign-off; **complete the DPIA and agree the anonymisation approach now, before any bulk pull**; define the baseline and the definition of "failure demand" with operational leaders; agree success measures; **pull the already-available web analytics (GA4, site search) as an early hypothesis-former.**
+- **Products/Outputs:** agreed scope & mandate; **baseline pack** (e.g. 270,000 calls/yr, 52% answer rate); measurement plan; data-access approvals; **completed DPIA and anonymisation design (P2)**; first web-demand hypotheses.
 
 ### Stage 1 — Data Extraction & Ingestion
-**Aim:** get a representative, defensible sample of real contact off the operational systems and into a safe analysis environment.
+**Aim:** get a representative, defensible sample of real contact off the operational systems and into a safe analysis environment — safely.
 
-- **Inputs:** telephony platform (8x8) call recordings/transcripts; web analytics, self-service form submissions and search/chat logs; email and corporate correspondence / complaints records.
-- **Activities:** build API extraction (P1); pull a statistically meaningful sample (reference build used **50,000 call transcripts**); capture matching web and email contact for the same period and services; validate completeness.
-- **Products/Outputs:** raw contact dataset landed securely across all three channels; extraction pipeline (P1) that can be re-run for re-baselining.
+- **Inputs:** telephony platform (8x8) call recordings/transcripts **plus call metadata** (abandonment, IVR drop-off, repeat-caller data); web analytics, self-service form submissions and search/chat logs; email and corporate correspondence / complaints records; signed-off DPIA and anonymisation design (Stage 0).
+- **Activities:** build API extraction (P1) with **anonymise-on-ingest** so PII is redacted at the point of capture; first pull a **small validation sample** for the calibration pilot (Stage 1.5); once the taxonomy is proven, pull the full statistically meaningful sample (reference build used **50,000 call transcripts**); capture matching web and email contact for the same period and services; validate completeness and representativeness (period, seasonality, service mix).
+- **Products/Outputs:** anonymised contact dataset landed securely across all three channels; reusable extraction pipeline (P1); governance layer (P2) live.
 
-### Stage 2 — Anonymisation & Preparation
-**Aim:** make the data safe and analysis-ready without losing analytical value.
+### Stage 1.5 — Calibration Pilot (thin slice)
+**Aim:** prove the analytical framework on a small sample before committing to full-scale processing.
 
-- **Inputs:** raw contact dataset (Stage 1); DPIA; retention and access policy.
-- **Activities:** redact/anonymise personal data; de-duplicate; normalise transcripts and text; tag by service, channel, date, and outcome where known.
-- **Products/Outputs:** anonymised, structured corpus; governance layer (P2) with access controls and audit; completed DPIA.
+- **Inputs:** small validation sample (Stage 1); draft failure-demand taxonomy; service knowledge from operational leads.
+- **Activities:** run the classification framework over the sample; **build a human-labelled gold-standard set** and measure model precision/recall; review results with service experts and refine the taxonomy; confirm the extraction fields are the right ones.
+- **Products/Outputs:** validated taxonomy; model accuracy baseline; go/no-go decision to scale — **only then does the full extraction and Stage 3 run at volume.**
+
+### Stage 2 — Preparation & Structuring
+**Aim:** make the anonymised data analysis-ready without losing analytical value.
+
+- **Inputs:** anonymised dataset (Stage 1); retention and access policy.
+- **Activities:** de-duplicate; normalise transcripts and text; tag by service, channel, date, and outcome where known; stitch cross-channel journeys where an identifier allows (did this caller first try the website?).
+- **Products/Outputs:** clean, structured corpus ready for classification; audit trail.
 
 ### Stage 3 — AI Analysis & Classification
 **Aim:** turn unstructured contact into a structured, comparable dataset of *why* people contacted the council.
@@ -151,7 +163,48 @@ The delivery is made of a small number of reusable **products** that each have c
 
 ---
 
-## 7. Roles & Governance
+## 7. Data Robustness, Blind Spots & Additional Tests
+
+Call transcripts are rich, but on their own they measure only the demand that **arrived and got through**. The largest pools of failure demand often sit in the gaps between channels. This section makes those gaps explicit and adds the tests that surface them.
+
+### 7.1 Known blind spots in a transcript-only view
+
+| Blind spot | Why it hides failure demand |
+|---|---|
+| **Survivorship / unanswered contact** | Transcripts capture *answered* calls only. At a 52% answer rate, ~48% of callers never connected — abandoned calls, repeat dialling and callback failures are invisible, yet often represent the *most* failed residents. |
+| **Deflection-failure demand** | Residents who tried self-service, failed, then called. The call is logged; the failed online journey that caused it is not. |
+| **Silent unmet demand** | Residents who failed online and gave up, or went to a councillor/MP instead. Appears in no contact log. |
+| **Self-selection** | Digitally excluded residents are over-represented in calls; digitally confident residents under-represented. |
+| **Temporal / seasonal skew** | A snapshot sample can miss billing runs, garden waste, school admissions and elections. |
+| **Transcription quality** | Accents, noise and mis-tagged services degrade classification accuracy. |
+
+### 7.2 Additional discovery tests (highest value, lowest cost first)
+
+| Test / source | Unseen demand it exposes | Cost |
+|---|---|---|
+| **GA4 site-search analytics** | Zero-result and top search terms — residents literally typing what they can't find. Direct content-gap evidence. | Low |
+| **Heatmaps + session replay** (Microsoft **Clarity** — free; Hotjar) | Rage clicks, dead clicks, quick-backs, scroll drop-off — *where* the digital journey breaks before it becomes a call. | Low |
+| **Form field-level analytics** | The exact field that kills a self-service form (abandonment by field). | Low |
+| **Funnel / conversion analysis** | Start-to-complete rate for each top-ten journey. | Low |
+| **Telephony metadata** (beyond transcripts) | Abandonment rate, IVR menu drop-off, and **repeat-caller analysis** (same number within X days = chasing = failure demand). | Low |
+| **Front-line advisor workshops** | Advisors name the top failure drivers in an afternoon — fast triangulation. | Low |
+| **Post-contact surveys / IVR reason-for-contact** | "Did this resolve your issue?" and self-reported driver. | Medium |
+| **Usability testing / mystery shopping** on top-ten journeys | Watch real residents fail a task in real time. | Medium |
+| **Complaints + MP/councillor enquiry themes** | Concentrated, high-severity failure demand. | Low |
+| **Back-office process data** (SLA breaches, rework) | The origin of the chase call — failure demand *before* the phone rings. | Medium |
+
+### 7.3 Making the data defensible
+
+- **Gold-standard validation set** — a human-labelled sample to measure classifier precision/recall (established in the Stage 1.5 pilot).
+- **Triangulation** — cross-check call drivers against site-search terms and advisor workshops. Where they **agree**, confidence is high; where they **diverge**, that divergence points straight at the unseen demand.
+- **Representativeness checks** — sample size/confidence intervals on driver proportions, and coverage across seasons and services.
+- **Cross-channel stitching** — link a call back to a preceding failed web session wherever an identifier allows, to size deflection-failure demand.
+
+> **The one-line takeaway:** transcripts tell you why residents *called*; heatmaps, GA site-search and telephony abandonment/repeat-caller data tell you why they *couldn't* — or *didn't*. Adding those three closes the biggest blind spots at very low cost.
+
+---
+
+## 8. Roles & Governance
 
 | Role | Responsibility in this process |
 |---|---|
@@ -163,19 +216,21 @@ The delivery is made of a small number of reusable **products** that each have c
 | **Delivery teams** | Build the delivery products (P6): web, forms, IVR, telephony, complaints. |
 | **Operational leads / front line** | Validate drivers, own prevention actions, make change stick. |
 
-**Governance gates:** Stage 0 mandate → Stage 2 IG/DPIA sign-off → Stage 4 investment decision → Stage 6 go-live approval → Stage 7 benefits sign-off.
+**Governance gates:** Stage 0 mandate **& DPIA/anonymisation sign-off (before any bulk extraction)** → Stage 1.5 pilot go/no-go to scale → Stage 4 investment decision → Stage 6 go-live approval → Stage 7 benefits sign-off.
 
 ---
 
-## 8. Key Principles
+## 9. Key Principles
 
 1. **Evidence before opinion.** Interventions come from classified real contact, not assumption.
 2. **Attack the cause, not the symptom.** The target is failure demand at root, not faster handling of avoidable contact.
 3. **Every channel, one framework.** Calls, web and email are analysed through the same driver→root-cause→prevention model so demand can't just hide by moving channel.
-4. **Governance first.** Anonymisation and DPIA are prerequisites, not afterthoughts.
-5. **Prioritise ruthlessly.** The top ten services usually explain the majority of avoidable demand — start there.
-6. **Change makes it stick.** Technology only delivers value when staff and residents actually use it — engagement and training are in the critical path.
-7. **Close the loop.** Re-baseline on fresh data to confirm the demand is gone and to find what's next.
+4. **Governance first.** Anonymisation and DPIA are prerequisites, locked before extraction — not afterthoughts.
+5. **Prove it small, then scale.** A calibration pilot validates the taxonomy and model accuracy before the full run, avoiding costly re-work.
+6. **Mind the gaps.** Transcripts miss the un-connected and the deflected — triangulate with web analytics, heatmaps and telephony metadata to see the unseen demand.
+7. **Prioritise ruthlessly.** The top ten services usually explain the majority of avoidable demand — start there.
+8. **Change makes it stick.** Technology only delivers value when staff and residents actually use it — engagement and training are in the critical path.
+9. **Close the loop.** Re-baseline on fresh data to confirm the demand is gone and to find what's next.
 
 ---
 
