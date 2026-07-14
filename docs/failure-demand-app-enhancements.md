@@ -1,94 +1,123 @@
-# Failure-Demand App — Enhancement Roadmap
+# Failure-Demand App — Enhancement Roadmap (v2)
 
-**How to close the best-practice gaps *without* slow traditional discovery — by building further enrichment passes and models on top of the transcript corpus you already hold.**
+**How to close every best-practice gap without slow traditional discovery — sequenced into delivery waves optimised for speed, impact and low re-work.**
 
-The unifying principle: every enhancement below is either **one more classification/enrichment pass over the existing corpus** or **a model fed by the existing demand output**, plus a small number of external data joins:
-
-| External join | Used for |
-|---|---|
-| Case-management status timestamps | Flow / value-stream reconstruction |
-| Deprivation indices (IMD / LSOA by postcode) | Equalities differential analysis |
-| Activity-based cost-to-serve per channel | Benefits / business case |
-| Operational event calendar (billing runs, letters, collections, outages) | Demand-trigger correlation |
-
-Transcripts stay the engine. These modules just make the *same* data carry systemic, equalities, workforce and financial weight.
+The organising insight is unchanged but sharpened: **you hold one asset — the classified transcript corpus — and almost every enhancement is another enrichment pass or model that reuses it.** So the roadmap is not a list of projects; it is a small number of *passes over the same data* plus four external joins, sequenced so the cheapest, highest-impact, risk-reducing work lands first.
 
 ---
 
-## 1. Systems Thinking
+## Speed & efficiency principles (apply to every wave)
 
-**What it precisely means here:** explain the *system that produced the call*, not just the call. Three moves — re-classify by system condition, reconstruct the flow, prove the upstream trigger.
+1. **One corpus, many passes.** Never re-extract. Every analysis is a pass over, or a model fed by, the single anonymised corpus.
+2. **Cheapest signal first.** Web analytics and metadata are near-free — mine them before expensive builds.
+3. **Prove small, then scale.** A pilot gates every heavy run; no full run against an unvalidated method.
+4. **Parallel arms, shared spine.** The four enrichment arms (systems, equalities, workforce, business case) share only the corpus, so they run concurrently and never block each other.
+5. **Idempotent & incremental.** Every pass is checkpointed and re-runnable on deltas only, so re-baselining is minutes, not weeks.
+6. **Gate, don't guess.** Work downstream of a gate does not start until the gate is green (see delivery plan G0–G6).
 
-### Modules to build
+---
 
-| Module | What it does | Output |
+## Wave map
+
+| Wave | Theme | Unlocks | Runs in parallel? |
+|---|---|---|---|
+| **0** | Foundations & fast signal | Legal-to-proceed, early hypotheses | F-series concurrent |
+| **1** | Core intelligence | The corpus everything else reuses | Critical spine |
+| **2** | Enrichment arms | Systemic, equalities, workforce insight | 4 arms concurrent |
+| **3** | Decision & delivery | Business case, go-live, benefits | Gated |
+
+---
+
+## Wave 0 — Foundations & fast signal *(week 1–2, concurrent)*
+
+| Module | Purpose | Effort | Impact | Speed lever |
+|---|---|---|---|---|
+| **DPIA + anonymise-on-ingest design** | Legal-to-proceed; the classic blocker, cleared first | M | Critical | Low risk profile → faster IG sign-off |
+| **Early web-analytics pull (GA4, site-search)** | Free hypotheses that steer the expensive analysis | S | High | Data already exists |
+| **Data-quality & join-key assessment** | Confirms the external joins are viable before you depend on them | S | High | De-risks the long-pole early |
+
+**Wave 0 exit (G1):** IG signed, join keys confirmed, first web-demand hypotheses in hand.
+
+---
+
+## Wave 1 — Core intelligence *(week 2–6, critical spine)*
+
+| Module | Purpose | Effort | Impact | Speed lever |
+|---|---|---|---|---|
+| **Extraction pipeline (anonymise-on-ingest)** | The reusable ingest; built once, re-run forever | M | Critical | Idempotent; powers re-baselining |
+| **Calibration pilot + gold-standard set** | Validates taxonomy & model accuracy on a small sample | M | Critical | Prevents 50k-scale re-work |
+| **Core classifier** (driver → root cause → value/failure → prevention) | The corpus every arm reuses | L | Critical | Bulk model + prompt caching + batch |
+| **Demand model & insight pack** | Sized, ranked demand; top-ten services | M | Critical | Auto-generated from classified corpus |
+
+**Wave 1 exit (G2 passed earlier; insight pack signed):** classified corpus + demand model live. **This is the moment the four arms fan out.**
+
+---
+
+## Wave 2 — Enrichment arms *(week 5–10, four arms concurrent)*
+
+### Arm A — Systems thinking
+| Module | Output | Speed lever |
 |---|---|---|
-| **System-conditions classifier** *(highest value)* | One more LLM pass tagging each failure contact with the system condition that manufactured it, from a defined library (e.g. *no proactive notification*, *contradictory letters*, *form needs info resident can't have*, *target-driven handoff*, *IT can't transact*, *policy re-verification*). | A **systemic-cause Pareto** — "top 10 things the organisation does to itself that make the phone ring" — each with an owner. |
-| **Journey-stitching / sequence-mining** | Identity resolution (CLI, case ref, address) + sequence reconstruction across touchpoints and time. | Repeat-contact chains, failure loops, channel-hopping — "X% of failure demand is repeat contact; mean 2.7 contacts per resolution." |
-| **Flow / value-stream reconstruction** | Join transcripts to case-management timestamps. | End-to-end lead time, **right-first-time %**, handoffs, rework, wait — a value-stream map per top service, built from data not a workshop. |
-| **Demand-trigger correlation** | Correlate contact volume against an operational-event calendar. | "What we sent that made the phone ring" — the demand our own processes create. |
+| **System-conditions classifier** *(build first — biggest insight uplift)* | Systemic-cause Pareto ("what we do to ourselves") | Pure corpus pass, no external join |
+| **Journey-stitching** | Repeat-contact chains + rate | Needs identity join (started Wave 0) |
+| **Flow / value-stream reconstruction** | Lead time, right-first-time %, rework | Case-mgmt timestamp join |
+| **Trigger correlation** | Demand our own events create | Event-calendar join |
 
-**Defines a new KPI:** *purpose delivered first time* — how often the system does, first time, what the resident actually contacted for.
-
----
-
-## 2. Equalities Lens
-
-**What it precisely means here:** quantify differential impact from the data, at population level — not a slow subjective workshop. Satisfies the Public Sector Equality Duty (Equality Act 2010 s.149).
-
-> **Governance note:** vulnerability extraction is **aggregate-only, not individual profiling**, with a safeguarding-routing exception where a live risk surfaces. This must be covered explicitly in the DPIA and an ethics review.
-
-### Modules to build
-
-| Module | What it does | Output |
+### Arm B — Equalities *(aggregate-only; DPIA-covered)*
+| Module | Output | Speed lever |
 |---|---|---|
-| **Vulnerability / accessibility signal classifier** | LLM pass flagging population-level markers: digital exclusion, language barrier, disability/health, frailty, financial hardship, literacy, caring/safeguarding. | Prevalence overall and **by driver** — which failures fall hardest on whom. |
-| **Equalities heat-map** | Join contact / answer-rate / failure to deprivation indices (IMD / LSOA — area data, not protected personal data). | Differential-failure map across communities. |
-| **Digital-exclusion risk scorer** *(killer output)* | For every proposed channel shift, compute the share of that driver's contacts carrying exclusion/accessibility markers. | Quantified EqIA evidence + automatic **"retain assisted/phone route"** flags per intervention. |
-| **Automated WCAG 2.2 checker** | Accessibility scan wired into the form/content build pipeline. | Pass/fail + defect list before rollout. |
-| **Data-driven EqIA generator** | Assembles the above into the EqIA template. | A defensible, evidence-based EqIA — fast. |
+| **Vulnerability/accessibility signal classifier** | Prevalence by driver | Corpus pass |
+| **Digital-exclusion risk scorer** *(priority — de-risks PSED)* | Per-intervention exclusion score + "retain assisted route" flags | Reuses vulnerability tags |
+| **Equalities heat-map** | Differential-failure map | IMD/LSOA join |
+| **WCAG checker + EqIA generator** | Accessibility defects + evidence-based EqIA | Automated |
 
----
-
-## 3. Workforce Lens
-
-**What it precisely means here:** the *voice of the advisor* (also free in the transcripts) plus an honest model of the FTE/skills *reshape* behind the headline reduction.
-
-### Modules to build
-
-| Module | What it does | Output |
+### Arm C — Workforce
+| Module | Output | Speed lever |
 |---|---|---|
-| **Advisor pain-point / knowledge-gap classifier** | LLM pass over the advisor side of the transcript — holds, transfers, workarounds, "let me just check", apologising for the system. | Training needs, knowledge-base gaps and QA themes at scale — no observation sessions. |
-| **Capacity & workforce-shape model** | `FTE = f(residual demand × AHT × target service level)`, by skill, over the transformation timeline. | A **reshape curve** — which roles shrink (transactional) and which grow (complex case, assisted digital, proactive outreach) — not just a headcount cut. |
-| **Automation-suitability scorer** | Score each driver's automatability (RPA / agentic AI vs must-stay-human). | Which FTE effort is genuinely removable vs must be reskilled; feeds cashable/non-cashable and phasing. |
-| **Reskilling / redeployment planner** | Skills matrix mapping residual + emerging work to current staff. | A workforce transition plan for consultation with unions and members. |
+| **Advisor pain-point classifier** | Training + KB backlog + QA | Corpus pass (advisor side) |
+| **Automation-suitability scorer** | Automatable vs human split | Corpus pass |
+| **Capacity & workforce-shape model** | FTE reshape curve by skill | Fed by demand model |
+| **Reskilling planner** | Transition plan for consultation | Fed by capacity model |
 
-**Why the reshape framing matters:** phasing via attrition/vacancy management rather than redundancy, and a visible growth path, is what keeps unions, members and morale onside — and what makes the saving deliverable rather than just modelled.
-
----
-
-## 4. Business Case Rigour
-
-**What it precisely means here:** everything above already feeds a Green Book **Five Case Model** — it just needs wiring up. Best practice adds options appraisal, dis-benefits, and financial rigour.
-
-### Modules to build
-
-| Module | What it does | Output |
+### Arm D — Business case *(builds while design/testing runs)*
+| Module | Output | Speed lever |
 |---|---|---|
-| **Benefits calculator** | Each intervention's volume reduction × activity-based cost-to-serve per channel. | £ benefit range, split **cashable / non-cashable**, with an assumptions register. |
-| **Options-appraisal engine** | Score do-nothing / do-minimum / do-something(s) on cost, benefit, risk, deliverability *and* equalities impact. | A comparison table, auto-populated from the demand model. |
-| **Financial model** | Costs (build / run / change) vs benefits over 3–5 years. | NPV, payback, and **sensitivity / Monte-Carlo** on the assumptions that swing it (adoption, deflection, AHT). |
-| **Dis-benefit & risk adjustment** | Model the gaming risk — deflecting a call without solving the need just moves failure demand — and discount benefits accordingly. | Risk-adjusted benefits + guardrail metrics. |
-| **Benefits-realisation tracker** | Baseline → target → actual, fed by the re-baselining loop. | Live benefits dashboard, closing back to the process's Stage 7. |
+| **Benefits calculator** | Cashable/non-cashable ranges | Fed by demand + capacity models |
+| **Financial model** | NPV, payback, sensitivity | Parameterised |
+| **Dis-benefit adjustment** | Risk-adjusted benefits | Guardrail metrics |
+
+**Wave 2 exit:** every arm's evidence ready *before* its gate needs it (G3 investment, G4 equalities).
 
 ---
 
-## Build sequence (suggested)
+## Wave 3 — Decision & delivery *(week 9–16+, gated)*
 
-1. **System-conditions classifier** — biggest insight uplift, pure corpus pass, no external join.
-2. **Vulnerability signal classifier + digital-exclusion scorer** — de-risks the equalities/PSED exposure that a channel-shift programme carries.
-3. **Journey-stitching + flow reconstruction** — needs the case-management join; unlocks the repeat-contact and rework picture.
-4. **Capacity/workforce model + benefits calculator** — turn the demand model into the workforce reshape and the business case.
-5. **Advisor pain-point classifier, trigger-correlation, options-appraisal & financial model** — round out assurance and the Five Case.
+| Module | Purpose | Gate |
+|---|---|---|
+| **Intervention backlog** | Prioritised (WSJF/impact-effort), owned prevention actions | — |
+| **Options appraisal** | Do-nothing/min/something, scored incl. equalities | **G3** |
+| **Prototype & test with users (Alpha)** | Validate the *solution*, not just the analysis | **G5** |
+| **Delivery** | IVR, web content, forms, omni-channel, RPA, cross-skilling | G3+G4+G5 |
+| **Benefits tracker + re-baseline** | Prove reduction; refresh backlog | **G6** |
 
-Each step reuses the same corpus and pipeline; none requires restarting discovery.
+---
+
+## Build order (single prioritised list)
+
+1. DPIA/anonymisation design → **G1**
+2. Web-analytics pull + data-quality assessment *(parallel)*
+3. Extraction pipeline
+4. Calibration pilot + gold-standard → **G2**
+5. Core classifier (full run)
+6. Demand model & insight pack
+7. **System-conditions classifier** *(first arm module — highest uplift)*
+8. **Vulnerability classifier + digital-exclusion scorer** *(de-risks PSED)*
+9. Identity/case-mgmt joins → journey-stitching + flow reconstruction
+10. Automation-suitability + capacity/reshape model
+11. Benefits calculator + financial model
+12. Advisor pain-point, trigger correlation, equalities heat-map, WCAG, EqIA generator *(fill-in, parallel)*
+13. Intervention backlog → options appraisal → **G3**
+14. Prototype & test → **G5** → delivery
+15. Benefits tracker → re-baseline → **G6**
+
+Every step reuses the same corpus and pipeline; none restarts discovery. The forensic *how* for each module is in the companion **Rebuild Specification**.
